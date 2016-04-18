@@ -1,10 +1,5 @@
 // TODO:
-// Tooltips!
-// Check the angle calculation (maybe negate, offset by 90k)
-// Lookup table from country to death toll
-// Color/size the circles by runup/deathtoll
 // Zooming? http://bl.ocks.org/mbostock/4015254
-// Log scale?
 TsunamiRunup = function(_parentElement, _dataFile) {
     this.parentElement = _parentElement;
     this.dataFile = _dataFile;
@@ -50,15 +45,33 @@ TsunamiRunup.prototype.loadData = function() {
     var vis = this;
     d3.tsv(vis.dataFile, function (error, data) {
         vis.selectedData = [];
+        vis.deathToll = {};
+        vis.maxRunupByCountry = {}
         for (var i = 0; i < data.length; i++) {
             data[i].LONGITUDE = +data[i].LONGITUDE;
             data[i].LATITUDE = +data[i].LATITUDE;
+            data[i].DEATHS = +data[i].DEATHS;
+            data[i].WATER_HT = +data[i].WATER_HT;
             if (data[i].TRAVEL_TIME_HOURS && data[i].TRAVEL_TIME_MINUTES) {
                 data[i].TRAVEL_TIME_HOURS = +data[i].TRAVEL_TIME_HOURS;
                 data[i].TRAVEL_TIME_MINUTES = +data[i].TRAVEL_TIME_MINUTES;
                 data[i].travelTime = getTravelTime(data[i]);
                 data[i].angleFromEpicenter = getAngle(data[i]);
                 vis.selectedData.push(data[i]);
+            }
+            if (!(data[i].COUNTRY in vis.deathToll)) {
+                vis.deathToll[data[i].COUNTRY] = 0
+            }
+            if (data[i].DEATHS) {
+                vis.deathToll[data[i].COUNTRY] += data[i].DEATHS;
+            }
+            if (!(data[i].COUNTRY in vis.maxRunupByCountry)) {
+                vis.maxRunupByCountry[data[i].COUNTRY] = 0
+            }
+            if (data[i].WATER_HT) {
+                vis.maxRunupByCountry[data[i].COUNTRY] = Math.max(
+                    data[i].WATER_HT, vis.maxRunupByCountry[data[i].COUNTRY]
+                );
             }
         }
         vis.data = data
@@ -94,6 +107,24 @@ TsunamiRunup.prototype.setupScale = function() {
     this.rScale = d3.scale.linear()
         .domain([0, this.radius_minutes])
         .range([0, this.radius_pixels]);
+
+    var maxDeaths = d3.max(this.data, function(d) {
+        return d.DEATHS; 
+    });
+    this.deathScale = d3.scale.log()
+        .domain([1, maxDeaths])
+        .range([2, 7]);
+
+    var maxRunup = d3.max(this.data, function(d) {
+        return d.WATER_HT;
+    });
+    console.log(maxRunup);
+    console.log(this.maxRunupByCountry);
+    this.runupScale = d3.scale.log()
+        .domain([1.0, maxRunup])
+        .range(["blue", "red"]);
+    console.log(this.runupScale(5));
+    console.log(this.runupScale(45));
 }
 
 TsunamiRunup.prototype.setupAxes = function() {
@@ -152,7 +183,8 @@ TsunamiRunup.prototype.plotRunup = function() {
             '</div>' +
             '<div id="tooltip-data">' + 
             d.LATITUDE + " : " + 
-            d.LONGITUDE +
+            d.LONGITUDE + " : " +
+            vis.deathToll[d.COUNTRY]
             '</div>';
     });
     vis.svg.call(tip);
@@ -162,13 +194,22 @@ TsunamiRunup.prototype.plotRunup = function() {
 
     runupCircles.enter().append("circle")
         .attr("class", "runup-circle")
-        .attr("r", 4)
+        .attr("r", function (d) {
+            if (d.COUNTRY in vis.deathToll) {
+                return vis.deathScale(vis.deathToll[d.COUNTRY] + 1);
+            }
+            return 2;
+        })
         .attr("cx", function (d) {
             return vis.rScale(d.travelTime);
         })
         .attr("cy", 0)
+        .attr("fill", function (d) {
+            console.log(vis.maxRunupByCountry[d.COUNTRY]);
+            return vis.runupScale(vis.maxRunupByCountry[d.COUNTRY]); 
+        })
         .attr("transform", function (d) {
-            return "rotate(" + d.angleFromEpicenter + ")";
+            return "rotate(" + (d.angleFromEpicenter - 90) + ")";
         })
         .on('mouseover', tip.show)
         .on('mouseout', tip.hide)
