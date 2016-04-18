@@ -1,8 +1,8 @@
 // TODO:
-// Calculate the angle from the epicenter.
+// Tooltips!
+// Check the angle calculation (maybe negate, offset by 90k)
 // Lookup table from country to death toll
 // Color/size the circles by runup/deathtoll
-// Tooltips 
 // Zooming? http://bl.ocks.org/mbostock/4015254
 // Log scale?
 TsunamiRunup = function(_parentElement, _dataFile) {
@@ -13,6 +13,37 @@ TsunamiRunup = function(_parentElement, _dataFile) {
 
 function getTravelTime(d) {
     return ((+d.TRAVEL_TIME_MINUTES) + 60 * (+d.TRAVEL_TIME_HOURS))
+}
+
+if (typeof(Number.prototype.toRadians) === "undefined") {
+    Number.prototype.toRadians = function() {
+        return this * Math.PI / 180;
+    }
+}
+if (typeof(Number.prototype.toDegrees) === "undefined") {
+    Number.prototype.toDegrees = function() {
+        return this * 180 / Math.PI;
+    }
+}
+
+function getAngle(d) {
+    var R = 6371000; // metres
+
+    var lat1 = 3.316;
+    var lon1 = 95.854;
+    var lat2 = d.LATITUDE;
+    var lon2 = d.LONGITUDE;
+
+    var phi1 = lat1.toRadians();
+    var phi2 = lat2.toRadians();
+    var dphi = (lat2-lat1).toRadians();
+    var dlambda = (lon2-lon1).toRadians();
+
+    var y = Math.sin(dlambda) * Math.cos(phi2);
+    var x = Math.cos(phi1)*Math.sin(phi2) -
+            Math.sin(phi1)*Math.cos(phi2)*Math.cos(dlambda);
+    var brng = Math.atan2(y, x).toDegrees();
+    return brng;
 }
 
 TsunamiRunup.prototype.loadData = function() {
@@ -26,7 +57,7 @@ TsunamiRunup.prototype.loadData = function() {
                 data[i].TRAVEL_TIME_HOURS = +data[i].TRAVEL_TIME_HOURS;
                 data[i].TRAVEL_TIME_MINUTES = +data[i].TRAVEL_TIME_MINUTES;
                 data[i].travelTime = getTravelTime(data[i]);
-                console.log(data[i].travelTime + " " + data[i].COUNTRY + " " + data[i].WATER_HT); 
+                data[i].angleFromEpicenter = getAngle(data[i]);
                 vis.selectedData.push(data[i]);
             }
         }
@@ -114,17 +145,31 @@ TsunamiRunup.prototype.setupAxes = function() {
 TsunamiRunup.prototype.plotRunup = function() {
     var vis = this;
 
+    var tip = d3.tip().attr("class", "d3-tip");
+    tip.html(function (d) {
+        return '<div id="tooltip-title">' + 
+            d.COUNTRY +
+            '</div>' +
+            '<div id="tooltip-data">' + 
+            d.LATITUDE + " : " + 
+            d.LONGITUDE +
+            '</div>';
+    });
+    vis.svg.call(tip);
+
     var runupCircles = this.svg.selectAll("circle")
         .data(this.selectedData);
 
     runupCircles.enter().append("circle")
         .attr("class", "runup-circle")
-        .attr("r", 2)
+        .attr("r", 4)
         .attr("cx", function (d) {
             return vis.rScale(d.travelTime);
         })
         .attr("cy", 0)
         .attr("transform", function (d) {
-            return "rotate(" + Math.round(Math.random() * 360) + ")";
-        });
+            return "rotate(" + d.angleFromEpicenter + ")";
+        })
+        .on('mouseover', tip.show)
+        .on('mouseout', tip.hide)
 }
