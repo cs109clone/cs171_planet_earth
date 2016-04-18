@@ -1,0 +1,91 @@
+year,disaster,category,Country iso,Country name,Total_deaths,Affected,Injured,Homeless,Total_affected,Total_damage
+1976,Earthquake,deaths,CHN,China,242000,0,164000,0,164000,5600000
+2010,Earthquake,deaths,HTI,Haiti,222570,3400000,300000,0,3700000,8000000
+1927,Earthquake,deaths,CHN,China,200000,0,0,0,0,0
+1920,Earthquake,deaths,CHN,China,180000,0,0,0,0,0
+1923,Earthquake,deaths,JPN,Japan,143000,100000,103733,0,203733,600000
+1948,Earthquake,deaths,SUN,Soviet Union,110000,0,0,0,0,25000
+2008,Earthquake,deaths,CHN,China,87560,46655000,368383,400735,47424118,85492000
+1908,Earthquake,deaths,ITA,Italy,75000,150000,0,0,150000,116000
+2005,Earthquake,deaths,PAK,Pakistan,73338,0,128309,5000000,5128309,5200000
+1932,Earthquake,deaths,CHN,China,70000,0,0,0,0,0
+1902,Volcanic,deaths,MTQ,Martinique,30000,0,0,0,0,0
+1985,Volcanic,deaths,COL,Colombia,21800,7700,5000,0,12700,1000000
+1902,Volcanic,deaths,GTM,Guatemala,7000,0,0,0,0,0
+1909,Volcanic,deaths,IDN,Indonesia,5500,0,0,0,0,0
+1919,Volcanic,deaths,IDN,Indonesia,5000,0,0,0,0,0
+1929,Volcanic,deaths,GTM,Guatemala,5000,0,0,0,0,0
+1951,Volcanic,deaths,PNG,Papua New Guinea,3000,0,0,0,0,0
+1986,Volcanic,deaths,CMR,Cameroon,1746,10000,437,0,10437,0
+1963,Volcanic,deaths,IDN,Indonesia,1690,78000,0,0,78000,0
+1902,Volcanic,deaths,VCT,Saint Vincent and the Grenadines,1565,0,0,0,0,0
+2004,Tsunami,deaths,IDN,Indonesia,165708,0,0,532898,532898,4451600
+2004,Tsunami,deaths,LKA,Sri Lanka,35399,516130,23176,480000,1019306,1316500
+2011,Tsunami,deaths,JPN,Japan,19846,362887,5933,0,368820,210000000
+2004,Tsunami,deaths,IND,India,16389,647599,6913,0,654512,1022800
+2004,Tsunami,deaths,THA,Thailand,8345,58550,8457,0,67007,1000000
+1933,Tsunami,deaths,JPN,Japan,6064,0,0,0,0,25000
+1927,Tsunami,deaths,JPN,Japan,2925,0,0,0,0,40000
+1952,Tsunami,deaths,SUN,Soviet Union,2300,0,0,0,0,0
+1998,Tsunami,deaths,PNG,Papua New Guinea,2182,9199,668,0,9867,0
+1923,Tsunami,deaths,JPN,Japan,2144,0,0,0,0,0
+1991,Volcanic,affected,PHL,Philippines (the),640,1035870,195,5800,1041865,211000
+2015,Volcanic,affected,ECU,Ecuador,0,800000,0,0,800000,
+1982,Volcanic,affected,IDN,Indonesia,30,330000,0,0,330000,160000
+2006,Volcanic,affected,ECU,Ecuador,5,300250,13,0,300263,150000
+1992,Volcanic,affected,NIC,Nicaragua,1,300000,75,0,300075,0
+2005,Volcanic,affected,COM,Comoros (the),1,284000,0,0,284000,0
+1969,Volcanic,affected,IDN,Indonesia,0,250000,0,0,250000,200
+1993,Volcanic,affected,PHL,Philippines (the),79,108000,9,57000,165009,488
+2010,Volcanic,affected,IDN,Indonesia,323,151745,455,0,152200,0
+1994,Volcanic,affected,PNG,Papua New Guinea,5,106000,2,46000,152002,110000
+2008,Earthquake,affected,CHN,China,87560,46655000,368383,400735,47424118,85492000
+1988,Earthquake,affected,IND,India,384,20000000,3778,0,20003778,72500
+2001,Earthquake,affected,IND,India,20005,4365000,166812,1790000,6321812,2623000
+2015,Earthquake,affected,NPL,Nepal,8969,5621790,18475,0,5640265,3860000
+1996,Earthquake,affected,CHN,China,353,3470000,17490,1823870,5311360,530000
+2005,Earthquake,affected,PAK,Pakistan,73338,0,128309,5000000,5128309,5200000
+1976,Earthquake,affected,GTM,Guatemala,23000,3750000,77000,1166000,4993000,1000000
+2010,Earthquake,affected,HTI,Haiti,222570,3400000,300000,0,3700000,8000000
+2013,Earthquake,affected,CHN,China,296,3410970,15752,12540,3439262,8017300
+1970,Earthquake,affected,PER,Peru,66823,3087909,143583,0,3231492,532000
+2004,Tsunami,affected,LKA,Sri Lanka,35399,516130,23176,480000,1019306,1316500
+2004,Tsunami,affected,IND,India,16389,647599,6913,0,654512,1022800
+2004,Tsunami,affected,IDN,Indonesia,165708,0,0,532898,532898,4451600
+2011,Tsunami,affected,JPN,Japan,19846,362887,5933,0,368820,210000000
+2004,Tsunami,affected,SOM,Somalia,298,104800,283,0,105083,100000
+2004,Tsunami,affected,THA,Thailand,8345,58550,8457,0,67007,1000000
+2006,Tsunami,affected,IDN,Indonesia,802,35000,543,0,35543,55000
+1964,Tsunami,affected,JPN,Japan,25,35000,376,0,35376,800000
+2004,Tsunami,affected,MDV,Maldives,102,12000,2214,13000,27214,470100
+2009,Tsunami,affected,JPN,Japan,1,25000,319,0,25319,400000
+1985,Volcanic,damage,COL,Colombia,21800,7700,5000,0,12700,1000000
+1980,Volcanic,damage,USA,United States of America (the),90,0,0,2500,2500,860000
+2015,Volcanic,damage,CHL,Chile,0,7600,0,0,7600,600000
+1991,Volcanic,damage,PHL,Philippines (the),640,1035870,195,5800,1041865,211000
+2014,Volcanic,damage,IDN,Indonesia,39,115088,72,0,115160,186000
+1983,Volcanic,damage,IDN,Indonesia,0,15935,0,0,15935,175190
+1982,Volcanic,damage,IDN,Indonesia,30,330000,0,0,330000,160000
+2006,Volcanic,damage,ECU,Ecuador,5,300250,13,0,300263,150000
+1982,Volcanic,damage,MEX,Mexico,100,25000,500,15000,40500,117000
+1994,Volcanic,damage,PNG,Papua New Guinea,5,106000,2,46000,152002,110000
+1995,Earthquake,damage,JPN,Japan,5297,257355,34531,251301,543187,100000000
+2008,Earthquake,damage,CHN,China,87560,46655000,368383,400735,47424118,85492000
+1994,Earthquake,damage,USA,United States of America (the),60,225,7000,20000,27225,30002100
+2010,Earthquake,damage,CHL,Chile,562,1861222,10334,800000,2671556,30000000
+2004,Earthquake,damage,JPN,Japan,40,59000,3183,0,62183,28000000
+1999,Earthquake,damage,TUR,Turkey,17982,880000,49792,655000,1584792,21000000
+1980,Earthquake,damage,ITA,Italy,4689,400000,7700,0,407700,20000000
+2011,Earthquake,damage,NZL,New Zealand,182,300000,1545,300,301845,18000000
+2012,Earthquake,damage,ITA,Italy,24,11000,400,14000,25400,15800000
+1999,Earthquake,damage,TWN,Taiwan (Province of China),2265,0,8918,100000,108918,14100800
+2011,Tsunami,damage,JPN,Japan,19846,362887,5933,0,368820,210000000
+2004,Tsunami,damage,IDN,Indonesia,165708,0,0,532898,532898,4451600
+2004,Tsunami,damage,LKA,Sri Lanka,35399,516130,23176,480000,1019306,1316500
+2004,Tsunami,damage,IND,India,16389,647599,6913,0,654512,1022800
+2004,Tsunami,damage,THA,Thailand,8345,58550,8457,0,67007,1000000
+1993,Tsunami,damage,JPN,Japan,239,5502,233,1620,7355,1000000
+1964,Tsunami,damage,JPN,Japan,25,35000,376,0,35376,800000
+2004,Tsunami,damage,MMR,Myanmar,71,12500,0,3200,15700,500000
+2004,Tsunami,damage,MYS,Malaysia,80,0,767,4296,5063,500000
+2004,Tsunami,damage,BGD,Bangladesh,2,0,0,0,0,500000
