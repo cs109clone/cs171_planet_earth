@@ -1,0 +1,47 @@
+
+
+{"name": "SocialSectors",
+      "children": [{"name": "Damage", 
+          "children":[{"name":"WaterAndSanitation", 
+          		"children":[{"name": "public", "size":20.90},
+          		{"name":"private","size":13.10}]},
+          		{"name":"Health", 
+          		"children":[{"name": "public", "size":94.70},
+          		{"name":"private","size":101.70}]},
+          		{"name":"Education", 
+          		"children":[{"name": "public", "size":38.20},
+          		{"name":"private","size":395.60}]},
+          		{"name":"FoodSafetyAndNutrition", 
+          		"children":[{"name": "public", "size":0.0},
+          		{"name":"private","size":295.00}]}]},
+
+          		{"name": "Losses", 
+          "children":[{"name":"WaterAndSanitation", 
+          		"children":[{"name": "public", "size":8.40},
+          		{"name":"private","size":193.00}]},
+          		{"name":"Health", 
+          		"children":[{"name": "public", "size":187.70},
+          		{"name":"private","size":86.10}]},
+          		{"name":"Education", 
+          		"children":[{"name": "public", "size":1.70},
+          		{"name":"private","size":41.50}]},
+          		{"name":"FoodSafetyAndNutrition", 
+          		"children":[{"name": "public", "size":0.0},
+          		{"name":"private","size":35.00}]}]}]}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,53 @@
+
+
+{"name": "Infrastructure",
+      "children": [{"name": "Damage", 
+          "children":[{"name":"Housing", 
+          		"children":[{"name": "public", "size":0},
+          		{"name":"private","size":2333.2}]},
+          		{"name":"Transport", 
+          		"children":[{"name": "public", "size":188.5},
+          		{"name":"private","size":118.6}]},
+          		{"name":"Telecommunication", 
+          		"children":[{"name": "public", "size":66.00},
+          		{"name":"private","size":28.00}]},
+          		{"name":"Energy", 
+          		"children":[{"name": "public", "size":20.8},
+          		{"name":"private","size":0.00}]},
+                    {"name":"Urban and community Infrastructure",
+                    "children":[{"name":"public", "size": 352.80},
+                    {"name":"private", "size": 58.80}]}]},
+
+          		{"name": "Losses", 
+          "children":[{"name":"Housing", 
+                    "children":[{"name": "public", "size":459.40},
+                    {"name":"private","size":279.30}]},
+                    {"name":"Transport", 
+                    "children":[{"name": "public", "size":91.60},
+                    {"name":"private","size":197.50}]},
+                    {"name":"Telecommunication", 
+                    "children":[{"name": "public", "size":24.00},
+                    {"name":"private","size":22.00}]},
+                    {"name":"Energy", 
+                    "children":[{"name": "public", "size":37.23},
+                    {"name":"private","size":0.00}]},
+                    {"name":"Urban and community Infrastructure",
+                    "children":[{"name":"public", "size": 162.00},
+                    {"name":"private", "size": 21.80}]}]}]}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
