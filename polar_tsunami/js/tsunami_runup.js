@@ -90,8 +90,8 @@ TsunamiRunup.prototype.initVis = function() {
     this.setupAxes();
     this.plotRunup();
 
-    var zoom = d3.behavior.zoom()
-        .on("zoom", this.);
+    // var zoom = d3.behavior.zoom()
+    //     .on("zoom", this.);
 }
 
 TsunamiRunup.prototype.createSVG = function() {
