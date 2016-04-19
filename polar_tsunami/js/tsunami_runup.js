@@ -1,5 +1,6 @@
 // TODO:
 // Zooming? http://bl.ocks.org/mbostock/4015254
+// Need a color bar and a size scale.
 TsunamiRunup = function(_parentElement, _dataFile) {
     this.parentElement = _parentElement;
     this.dataFile = _dataFile;
@@ -88,6 +89,9 @@ TsunamiRunup.prototype.initVis = function() {
     this.setupScale();
     this.setupAxes();
     this.plotRunup();
+
+    var zoom = d3.behavior.zoom()
+        .on("zoom", this.);
 }
 
 TsunamiRunup.prototype.createSVG = function() {
