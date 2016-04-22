@@ -1,0 +1,53 @@
+
+
+{"name": "productionSector",
+      "children": [{"name": "Damage", 
+          "children":[{"name":"Agriculture", 
+          		"children":[{"name": "public", "size":3.1},
+          		{"name":"private","size":49.9}]},
+          		{"name":"Industry", 
+          		"children":[{"name": "public", "size":0},
+          		{"name":"private","size":74.60}]},
+          		{"name":"Retail", 
+          		"children":[{"name": "public", "size":0},
+          		{"name":"private","size":148.7}]},
+          		{"name":"Finance and Banking", 
+          		"children":[{"name": "public", "size":0},
+          		{"name":"private","size":98.2}]},
+                    {"name":"tourism",
+                    "children":[{"name":"public", "size": 0},
+                    {"name":"private", "size": 22.6}]}]},
+
+          		{"name": "Losses", 
+          "children":[{"name":"Agriculture", 
+                    "children":[{"name": "public", "size":0},
+                    {"name":"private","size":96.00}]},
+                    {"name":"Industry", 
+                    "children":[{"name": "public", "size":0},
+                    {"name":"private","size":267.70}]},
+                    {"name":"Retail", 
+                    "children":[{"name": "public", "size":0},
+                    {"name":"private","size":490.6}]},
+                    {"name":"Finance and Banking", 
+                    "children":[{"name": "public", "size":0},
+                    {"name":"private","size":0.00}]},
+                    {"name":"tourism",
+                    "children":[{"name":"public", "size": 0},
+                    {"name":"private", "size": 79.00}]}]}]}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
