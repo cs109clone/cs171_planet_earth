@@ -11,8 +11,27 @@
 </head>
 <body>
 
+	<!-- Select box to choose natural disaster -->
+	<form class="form-inline">
+		<div class="form-group">
+			<label for="map-data">Map Data:</label>
+			<select class="form-control" id="map-data">
+				<option value="all">All</option>
+				<option value="Earthquake">Earthquakes</option>
+				<option value="Volcano">Volcanos</option>
+				<option value="Tsunami">Tsunamis</option>
+			</select>
+		</div>
+	</form>
 	<div id="chart-area"></div>
-	<div id="timeline-area"></div>
+	<div class="row">
+		<div class="col-lg-9">
+			<div id="timeline-area"></div>
+		</div>
+		<div class="col-lg-3">
+			<div id="legend-area"></div>
+		</div>
+	</div>
 
 
 	<!-- Load JS libraries: jQuery, bootstrap, D3, D3 tooltip -->
