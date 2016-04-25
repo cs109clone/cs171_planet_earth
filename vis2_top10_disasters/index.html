@@ -13,7 +13,18 @@
 </head>
 <body>
 
+	<form class="form-inline">
+		<div class="form-group">
+			<label for="top10-data">Top 10 Data:</label>
+			<select class="form-control" id="top10-data">
+				<option value="deaths">Deaths</option>
+				<option value="affected">Affected</option>
+				<option value="damage">Damage</option>
+			</select>
+		</div>
+	</form>
 	<div id="cluster-area"></div>
+	<div id="legend-area"></div>
 
 	<!-- Load JS libraries: jQuery, bootstrap, D3, D3 tooltip -->
 	<script src="js/jquery.min.js"></script>
