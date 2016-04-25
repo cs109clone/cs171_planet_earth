@@ -29,7 +29,6 @@ var svgTimeline = d3.select("#timeline-area").append("svg")
 	.attr("height", heightTimeline + marginTimeline.top + marginTimeline.bottom)
 	.append("g")
 	.attr("transform", "translate(" + marginTimeline.left + "," + marginTimeline.top + ")");
-		//.call(tip);
 
 var xTimeline = d3.time.scale()
 	.range([0, widthTimeline])
@@ -100,17 +99,19 @@ var legendData, categories;
 //loadData();
 
 // Earthquake
-var allData, data, filteredData, world, selectedData;
+var allData, data, filteredData, selectedData, world, plates;
 
 
 // Load CSV file
 queue()
 	.defer(d3.json, "data/world-50m.json")
+	.defer(d3.json, "data/tectonic_plates.json")
 	.defer(d3.csv, "data/natural_disasters.csv")
-	.await(function(error, mapTopJson, disastersCsvData){
+	.await(function(error, mapTopJson, platesTopJson, disastersCsvData){
 
-
+		console.log(platesTopJson)
 		world = topojson.feature(mapTopJson, mapTopJson.objects.countries).features;
+		plates = platesTopJson.features
 
 		disastersCsvData.forEach(function(d){
 			d.LATITUDE = +d.LATITUDE;
@@ -125,8 +126,17 @@ queue()
 		initVisualization();
 
 		d3.select("#map-data").on("change", updateHistogram);
+		d3.select("#checkbox-plates").on("change", updatePlates);
+
 
 	});
+
+function updatePlates(){
+	console.log("dadsa")
+	var showPlates = d3.select("#checkbox-plates").property("checked");
+	console.log(showPlates)
+	d3.selectAll(".plates").classed("hidden", function(d){return !showPlates})
+}
 
 function initVisualization(){
 
@@ -152,6 +162,12 @@ function initVisualization(){
 		.data(world)
 		.enter().append("path")
 		.attr("class", "path")
+		.attr("d", path);
+
+	svg.append("g").selectAll(".plates")
+		.data(plates)
+		.enter().append("path")
+		.attr("class", "plates")
 		.attr("d", path);
 
 	svgTimeline.append("g")
