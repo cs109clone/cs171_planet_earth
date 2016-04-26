@@ -27,12 +27,20 @@ form {
 }
 
 </style>
+
+  <div>Total Number of damaged houses grouped in EMS-98 Damage classes by evaulated communes</div>
 <form>
   <label><input type="radio" name="mode" value="grouped"> Grouped</label>
   <label><input type="radio" name="mode" value="stacked" checked> Stacked</label>
 </form>
+<select onchange="window.location.href = this.value">
+    <option value="haitiDamage2.html">evaluated communes</option>
+    <option value="haitiDamage.html">Dominant land use</option>
+  </selection>
+
 <script src="//d3js.org/d3.v3.min.js"></script>
 <script>
+
 
 var count =-1;
 var n = 5, // number of layers
@@ -41,9 +49,13 @@ var n = 5, // number of layers
     layers = stack(d3.range(n).map(function() { return bumpLayer(m, .1); })),
     yGroupMax = d3.max(layers, function(layer) { return d3.max(layer, function(d) { return d.y; }); }),
     yStackMax = d3.max(layers, function(layer) { return d3.max(layer, function(d) { return d.y0 + d.y; }); });
+    yGroupMin = d3.min(layers, function(layer) { return d3.min(layer, function(d) { return d.y; }); }),
+    yStackMin = d3.min(layers, function(layer) { return d3.min(layer, function(d) { return d.y0 + d.y; }); });
+
+    console.log("gmax: "+ yGroupMax+", gmin: "+ yGroupMin+ ", smax: "+ yStackMax+", smin: "+ yStackMin);
 
 var margin = {top: 40, right: 10, bottom: 20, left: 10},
-    width = 960 - margin.left - margin.right,
+    width = 980 - margin.left - margin.right,
     height = 500 - margin.top - margin.bottom;
 
 var x = d3.scale.ordinal()
@@ -63,6 +75,15 @@ var xAxis = d3.svg.axis()
     .tickSize(0)
     .tickPadding(6)
     .orient("bottom");
+
+var yAxis = d3.svg.axis()
+    .scale(y)
+    .tickSize(0)
+    .tickPadding(0)
+    .orient("left");
+
+
+    //console.log("y:"+y(yStackMax));
 
 var svg = d3.select("body").append("svg")
     .attr("width", width + margin.left + margin.right)
@@ -94,6 +115,10 @@ svg.append("g")
     .attr("transform", "translate(0," + height + ")")
     .call(xAxis);
 
+svg.append("g")
+    .attr("class", "y axis")
+    .call(yAxis);
+
 d3.selectAll("input").on("change", change);
 
 var timeout = setTimeout(function() {
@@ -107,7 +132,15 @@ function change() {
 }
 
 function transitionGrouped() {
+
   y.domain([0, yGroupMax]);
+  //console.log(y(yGroupMin));
+  var k = d3.scale.linear()
+          .domain([y(yGroupMin),y(yGroupMax)])
+          .range([0, height]);
+
+ // console.log(yGroupMin+"  change: "+groupLinear(yGroupMin));
+  //console.log(yGroupMax+"  change: "+groupLinear(yGroupMax));
 
   rect.transition()
       .duration(500)
@@ -115,8 +148,14 @@ function transitionGrouped() {
       .attr("x", function(d, i, j) { return x(d.x) + x.rangeBand() / n * j; })
       .attr("width", x.rangeBand() / n)
     .transition()
-      .attr("y", function(d) { return y(d.y); })
-      .attr("height", function(d) { return height - y(d.y); });
+      .attr("y", function(d) { return height-groupLinear(d.y); })
+      .attr("height", function(d) { return groupLinear(d.y); });
+      //.attr("height", function(d) { return height - y(d.y); });
+
+}
+
+function groupLinear(x){
+  return 68.72852*x-319.1752;
 }
 
 function transitionStacked() {
@@ -154,7 +193,7 @@ function bumpLayer(n, o) {
   // console.log("a:"+a);
   // return a.map(function(d, i) { console.log("d:"+d); return {x: i, y: Math.max(0, d)}; });
   count = count+1;
-  return a[count].map(function(d, i) { return {x: i, y: d}; });
+  return a[count].map(function(d, i) { return {x: i, y: Math.log(d)}; });
 }
 
 function dataLayer(){
