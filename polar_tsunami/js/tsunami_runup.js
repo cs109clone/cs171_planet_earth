@@ -1,6 +1,3 @@
-// TODO:
-// Zooming? http://bl.ocks.org/mbostock/4015254
-// Need a color bar and a size scale.
 TsunamiRunup = function(_parentElement, _dataFile) {
     this.parentElement = _parentElement;
     this.dataFile = _dataFile;
@@ -82,118 +79,207 @@ TsunamiRunup.prototype.loadData = function() {
 
 TsunamiRunup.prototype.initVis = function() {
     this.radius_pixels = 250;
-    this.radius_minutes = 2500;
+    this.max_radius_minutes = 2500;
+    this.radius_minutes = this.max_radius_minutes;
     this.n_radial_levels = 7;
 
     this.createSVG();
-    this.setupScale();
+    this.setupScales();
+    this.updateLegend();
     this.setupAxes();
-    this.plotRunup();
-
-    // var zoom = d3.behavior.zoom()
-    //     .on("zoom", this.);
+    this.setupTooltips();
+    this.setupZoom();
+    this.update();
 }
 
 TsunamiRunup.prototype.createSVG = function() {
     var vis = this;
 
-    var width = 600;
-    var height = 600;
+    this.width = 600;
+    this.height = 600;
 
-    vis.svg = d3.select(this.parentElement).append("svg")
-        .attr("width", width)
-        .attr("height", height)
+    this.realSVG = d3.select(this.parentElement).append("svg")
+        .attr("width", this.width)
+        .attr("height", this.height)
+    this.svg = this.realSVG
         .append("g")
-        .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
+        .attr("transform", "translate(" + this.width / 2 + "," + this.height / 2 + ")");
 }
 
-TsunamiRunup.prototype.setupScale = function() {
+TsunamiRunup.prototype.setupScales = function() {
+    this.zoom_scale = 1.0;
     this.rScale = d3.scale.linear()
-        .domain([0, this.radius_minutes])
         .range([0, this.radius_pixels]);
 
-    var maxDeaths = d3.max(this.data, function(d) {
+    this.minCircleR = 2;
+    this.maxCircleR = 7;
+
+    this.minDeaths = d3.min(this.data, function(d) {
+        return d.DEATHS; 
+    }) + 1;
+    this.maxDeaths = d3.max(this.data, function(d) {
         return d.DEATHS; 
     });
     this.deathScale = d3.scale.log()
-        .domain([1, maxDeaths])
-        .range([2, 7]);
+        .range([this.minCircleR, this.maxCircleR])
+        .domain([this.minDeaths, this.maxDeaths])
 
-    var maxRunup = d3.max(this.data, function(d) {
+    this.minRunup = d3.min(this.data, function(d) {
+        return d.WATER_HT;
+    }) + 0.1;
+    this.maxRunup = d3.max(this.data, function(d) {
         return d.WATER_HT;
     });
-    console.log(maxRunup);
-    console.log(this.maxRunupByCountry);
     this.runupScale = d3.scale.log()
-        .domain([1.0, maxRunup])
-        .range(["blue", "red"]);
-    console.log(this.runupScale(5));
-    console.log(this.runupScale(45));
+        .range(["blue", "red"])
+        .domain([this.minRunup, this.maxRunup])
+}
+
+TsunamiRunup.prototype.updateLegend = function() {
+    var legend = this.svg.append("g");
+
+    var left = -300;
+    var step = 35;
+
+    legend.append("text")
+        .attr("x", left + 20)
+        .attr("y", 263)
+        .attr("class", "deaths-legend")
+        .text("Deaths: ")
+
+    for (var i = this.minCircleR; i <= this.maxCircleR; i++) {
+        legend.append("circle")
+            .attr("cx", left + step * i)
+            .attr("cy", 260)
+            .attr("r", i);
+
+        var label = "10<sup>" + Math.round(Math.log10(this.deathScale.invert(i))) + "</sup>";
+        legend.append("foreignObject")
+            .attr("x", left - 15 + step * i)
+            .attr("y", 265)
+            .attr("class", "deaths-legend")
+            .append("xhtml:body")
+            .html(label);
+    }
+
+    colorbar = Colorbar()
+        .barlength(170)
+        .thickness(25)
+        .scale(this.runupScale)
+        .orient("horizontal")
+
+    var colorbar_g = this.svg.append("g")
+        .attr("transform", "translate(100,240)");
+    colorbarObject = colorbar_g.call(colorbar);
+
+    var n_steps = 4;
+    for (var i = 0; i < n_steps; i++) {
+        colorbar_g.append("text")
+            .attr("x", 56 * i)
+            .attr("y", 35)
+            .text(Math.pow(10, i - 1) + "m")
+    }
 }
 
 TsunamiRunup.prototype.setupAxes = function() {
     var vis = this;
 
-    var gr = vis.svg.append("g")
+    rAxis = vis.svg.append("g")
         .attr("class", "r axis")
-        .selectAll("g")
+
+    this.rAxisCircles = rAxis.selectAll("circle")
         .data(vis.rScale.ticks(vis.n_radial_levels).slice(1))
-        .enter().append("g");
+        .enter()
+        .append("circle")
 
-    gr.append("circle")
-        .attr("r", vis.rScale);
+    this.rAxisText = rAxis.selectAll("g")
+        .data(vis.rScale.ticks(vis.n_radial_levels).slice(1))
+        .enter()
+        .append("text")
 
-    gr.append("text")
-        .attr("y", function(d) { return -vis.rScale(d) - 4; })
-        .attr("transform", "rotate(25)")
-        .style("text-anchor", "middle")
-        .text(function(d) { 
-            return d + " minutes"; 
-        });
-
-    var angles_group = vis.svg.append("g")
+    vis.svg.append("g")
         .attr("class", "a axis")
         .selectAll("g")
         .data(d3.range(0, 360, 45))
         .enter().append("g")
-        .attr("transform", function(d) { return "rotate(" + -d + ")"; });
+        .attr("transform", function(d) { return "rotate(" + -d + ")"; })
+        .append("line")
+        .attr("x2", vis.radius_pixels)
 
-    angles_group.append("text")
-        .attr("x", vis.radius_pixels + 6)
-        .attr("dy", ".35em")
-        .style("text-anchor", function(d) { 
-            return d < 270 && d > 90 ? "end" : null; 
-        })
-        .attr("transform", function(d) {
-            return d < 270 && d > 90 
-                ? 
-                "rotate(180 " + (vis.radius_pixels + 6) + ",0)" 
-                :
-                null; 
-        })
-        .text(function(d) { return d + "°"; });
+    vis.svg.append("text")
+        .attr("x", 255)
+        .attr("y", 3)
+        .text("E");
 
-    angles_group.append("line")
-        .attr("x2", vis.radius_pixels);
+    vis.svg.append("text")
+        .attr("x", -3)
+        .attr("y", -255)
+        .text("N");
+
+    vis.svg.append("text")
+        .attr("x", -263)
+        .attr("y", 3)
+        .text("W");
+
+    vis.svg.append("text")
+        .attr("x", -3)
+        .attr("y", 263)
+        .text("S");
 }
 
-TsunamiRunup.prototype.plotRunup = function() {
+TsunamiRunup.prototype.setupTooltips = function() {
     var vis = this;
-
-    var tip = d3.tip().attr("class", "d3-tip");
-    tip.html(function (d) {
+    this.tip = d3.tip().attr("class", "d3-tip");
+    this.tip.html(function (d) {
         return '<div id="tooltip-title">' + 
             d.COUNTRY +
             '</div>' +
             '<div id="tooltip-data">' + 
-            d.LATITUDE + " : " + 
-            d.LONGITUDE + " : " +
-            vis.deathToll[d.COUNTRY]
+            "Deaths: " + vis.deathToll[d.COUNTRY] + 
+            "<br/>Runup: " + vis.maxRunupByCountry[d.COUNTRY] + "m" +
             '</div>';
     });
-    vis.svg.call(tip);
+    this.svg.call(this.tip);
+}
 
-    var runupCircles = this.svg.selectAll("circle")
+TsunamiRunup.prototype.setupZoom = function() {
+    var vis = this;
+    this.zoom = d3.behavior.zoom()
+    this.zoom.on("zoom", function (d) {
+        vis.zoom_scale = 1.0 / d3.event.scale;
+        if (vis.zoom_scale > 1.0) {
+            vis.zoom_scale = 1.0;
+        }
+        if (vis.zoom_scale < 0.1) {
+            vis.zoom_scale = 0.1;
+        }
+        vis.update();
+    });
+
+    this.realSVG.call(this.zoom);
+}
+
+TsunamiRunup.prototype.update = function() {
+    var vis = this;
+
+    var rDomainMax = this.radius_minutes * this.zoom_scale;
+    this.rScale.domain([0, rDomainMax])
+    this.rAxisCircles
+        .attr("r", function (d) {
+            return vis.rScale(d * rDomainMax);
+        });
+
+    this.rAxisText
+        .attr("y", function(d) {
+            return -vis.rScale(d * rDomainMax) - 4; 
+        })
+        .attr("transform", "rotate(25)")
+        .style("text-anchor", "middle")
+        .text(function(d) { 
+            return Math.round((d * rDomainMax) / 10) * 10 + " minutes"; 
+        });
+
+    var runupCircles = this.svg.selectAll("circle").filter(".runup-circle")
         .data(this.selectedData);
 
     runupCircles.enter().append("circle")
@@ -204,17 +290,23 @@ TsunamiRunup.prototype.plotRunup = function() {
             }
             return 2;
         })
-        .attr("cx", function (d) {
-            return vis.rScale(d.travelTime);
-        })
-        .attr("cy", 0)
-        .attr("fill", function (d) {
-            console.log(vis.maxRunupByCountry[d.COUNTRY]);
-            return vis.runupScale(vis.maxRunupByCountry[d.COUNTRY]); 
-        })
         .attr("transform", function (d) {
             return "rotate(" + (d.angleFromEpicenter - 90) + ")";
         })
-        .on('mouseover', tip.show)
-        .on('mouseout', tip.hide)
+        .on('mouseover', this.tip.show)
+        .on('mouseout', this.tip.hide);
+
+    var xFunc = function (d) {
+        return vis.rScale(d.travelTime);
+    };
+
+    runupCircles
+        .attr("cx", xFunc)
+        .attr("cy", 0)
+        .attr("fill", function (d) {
+            if (d.travelTime > rDomainMax) {
+                return "none";
+            }
+            return vis.runupScale(vis.maxRunupByCountry[d.COUNTRY]); 
+        })
 }

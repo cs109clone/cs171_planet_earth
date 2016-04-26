@@ -1,31 +1,46 @@
 body {
     font-family: 'Roboto', sans-serif;
+    font-size: 10px;
 }
 
-.axis text {
-  font: 10px sans-serif;
+rect.zoom-pane {
+  cursor: move;
+  fill: none;
+  pointer-events: all;
+}
+
+.colorbar .axis line{
+    fill: none;
+    stroke: black;
+    shape-rendering: crispEdges;
+}
+
+.colorbar .axis .domain{
+    fill: none;
+    stroke: black;
+    shape-rendering: crispEdges;
 }
 
 .axis line {
-  fill: none;
-  stroke: #777;
-  stroke-dasharray: 1,4;
+    fill: none;
+    stroke: #777;
+    stroke-dasharray: 1,4;
 }
 
 .axis circle {
-  fill: none;
-  stroke: #777;
+    fill: none;
+    stroke: #777;
 }
 
 .axis :last-of-type circle {
-  stroke: #333;
-  stroke-dasharray: none;
+    stroke: #333;
+    stroke-dasharray: none;
 }
 
 .line {
-  fill: none;
-  stroke: red;
-  stroke-width: 1.5px;
+    fill: none;
+    stroke: red;
+    stroke-width: 1.5px;
 }
 
 
