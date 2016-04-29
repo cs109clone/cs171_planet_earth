@@ -1,0 +1,50 @@
+body {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  margin: auto;
+  position: relative;
+  width: 1100px;
+}
+
+text {
+  font: 10px sans-serif;
+}
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+.yaxis path,
+.yaxis line{
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+form {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+}
+
+.q0-8{fill:#aaaadd}
+.q1-8{fill:#9595bf}
+.q2-8{fill:#8080a2}
+.q3-8{fill:#6a6a84}
+.q4-8{fill:#555566}
+
+#selectMenu{
+  position: fixed;
+  left: 150px;
+  top:40px;
+}
+
+#title{
+  margin-top:5px;
+  font-family: sans-serif;
+  font-weight: 2px;
+  font-size:20px;
+  height: 40px;
+}

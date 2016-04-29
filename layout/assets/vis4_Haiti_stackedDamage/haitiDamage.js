@@ -1,79 +1,3 @@
-<!DOCTYPE html>
-<meta charset="utf-8">
-<style>
-
-body {
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  margin: auto;
-  position: relative;
-  width: 1100px;
-}
-
-text {
-  font: 10px sans-serif;
-}
-
-.axis path,
-.axis line {
-  fill: none;
-  stroke: #000;
-  shape-rendering: crispEdges;
-}
-
-.yaxis path,
-.yaxis line{
-  fill: none;
-  stroke: #000;
-  shape-rendering: crispEdges;
-}
-
-form {
-  position: absolute;
-  right: 10px;
-  top: 10px;
-}
-
-.q0-8{fill:#aaaadd}
-.q1-8{fill:#9595bf}
-.q2-8{fill:#8080a2}
-.q3-8{fill:#6a6a84}
-.q4-8{fill:#555566}
-
-#selectMenu{
-  position: fixed;
-  left: 150px;
-  top:40px;
-}
-
-#title{
-  margin-top:5px;
-  font-family: sans-serif;
-  font-weight: 2px;
-  font-size:20px;
-  height: 40px;
-}
-</style>
-
-
-
-  <div id="title">Total Number of damaged houses grouped in EMS-98 Damage classes
-and dominant land use class </div>
-<form>
-  <label><input type="radio" name="mode" value="grouped"> Grouped</label>
-  <label><input type="radio" name="mode" value="stacked" checked> Stacked</label>
-</form>
-<div id="selectMenu">
-  <select onchange="window.location.href = this.value">
-    <option value="haitiDamage.html">Dominant land use</option>
-    <option value="haitiDamage2.html">evaluated communes</option>
-  </selection>
-</div>
-<script src="//d3js.org/d3.v3.min.js"></script>
-<script>
-
-
-
-
 var count =-1;
 var n = 5, // number of layers
     m = 7, // number of samples per layer
@@ -271,17 +195,13 @@ function transitionGrouped() {
     .transition()
       .attr("y", function(d) { return y(d.y); })
       .attr("height", function(d) { return height - y(d.y); });
+
 }
 
 function transitionStacked() {
   y.domain([0, yStackMax]);
    //console.log(yStackMaxR);
-  yR.domain([0, yStackMaxR]);
-
-
-    svg.select(".yaxis")
-      .transition().duration(1500)
-    .call(yAxis);  ////
+   
 
   rect.transition()
       .duration(500)
@@ -331,5 +251,3 @@ function dataLayer(){
 
 
 }
-
-</script>
