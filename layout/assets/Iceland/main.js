@@ -81,11 +81,12 @@ var heatmapChart = function(csvFile) {
                 .data([0].concat(colorScale.quantiles()), function(d) { return d; });
 
             legend.enter().append("g")
-                .attr("class", "legend");
+                .attr("class", "legend")
+                .attr("transform", "translate(110, 0)");
 
             legend.append("rect")
                 .attr("x", function(d, i) { return legendElementWidth * i; })
-                .attr("y", 820)
+                .attr("y", 5)
                 .attr("width", legendElementWidth)
                 .attr("height", gridSize / 2)
                 .style("fill", function(d, i) { return colors[i]; });
@@ -94,7 +95,7 @@ var heatmapChart = function(csvFile) {
                 .attr("class", "mono")
                 .text(function(d) { return "≥ " + Math.round(d); })
                 .attr("x", function(d, i) { return legendElementWidth * i; })
-                .attr("y", 850);
+                .attr("y", 17);
 
             legend.exit().remove();
 
@@ -102,15 +103,3 @@ var heatmapChart = function(csvFile) {
 };
 
 heatmapChart(datasets[0]);
-
-var datasetpicker = d3.select("#dataset-picker").selectAll(".dataset-button")
-    .data(datasets);
-
-datasetpicker.enter()
-    .append("input")
-    .attr("value", function(d){ return "Dataset " + d })
-    .attr("type", "button")
-    .attr("class", "dataset-button")
-    .on("click", function(d) {
-        heatmapChart(d);
-    });

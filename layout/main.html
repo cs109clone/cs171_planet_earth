@@ -44,26 +44,27 @@
 	<article id="main">
 		<section class="wrapper style5">
 			<div class="inner">
-
-				<h1>Haiti Earthquake: Summary of Damages and Losses</h1>
-				<div id = "vis1">Environment & disaster risk management</div>
-				<div id = "vis2">Social sectors</div>
-				<div id = "vis3">Infrastructure</div>
-				<div id = "vis4">Production sectors</div>
-
-
-				<div>Total Number of damaged houses grouped in EMS-98 Damage classes
-					and dominant land use class </div>
-				<form>
-					<label><input type="radio" name="mode" value="grouped"> Grouped</label>
-					<label><input type="radio" name="mode" value="stacked" checked> Stacked</label>
+				<form class="form-inline">
+					<div class="form-group">
+						<label for="map-data">Map Data:</label>
+						<select class="form-control" id="map-data">
+							<option value="all">All</option>
+							<option value="Earthquake">Earthquakes</option>
+							<option value="Volcano">Volcanos</option>
+							<option value="Tsunami">Tsunamis</option>
+						</select>
+					</div>
+					<label class="checkbox-inline"><input id="checkbox-plates" checked="checked" type="checkbox">Show tectonic plates</label>
 				</form>
-
-				<select onchange="window.location.href = this.value">
-					<option value="assets/vis4_Haiti_stackedDamage/haitiDamage.html">Dominant land use</option>
-					<option value="assets/vis4_Haiti_stackedDamage/haitiDamage2.html">evaluated communes</option>
-					</select>
-			</div>
+				<div id="world-map"></div>
+				<div class="row">
+					<div class="col-lg-9">
+						<div id="timeline"></div>
+					</div>
+					<div class="col-lg-3">
+						<div id="legend-area"></div>
+					</div>
+				</div>
 		</section>
 	</article>
 
@@ -90,10 +91,17 @@
 <script src="assets/js/skel.min.js"></script>
 <script src="assets/js/util.js"></script>
 <!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
-<script src="assets/vis4_Haiti/d3.min.js"></script>
-<script src = "assets/vis4_Haiti/environment.js"></script>
-<script src="assets/vis4_Haiti/socialSector.js"></script>
-<script src = "assets/vis4_Haiti/infrastructure.js"></script>
-<script src = "assets/vis4_Haiti/productionSector.js"></script>
+<script src="assets/vis1_world_map/js/jquery.min.js"></script>
+<script src="assets/vis1_world_map/js/bootstrap.min.js"></script>
+<script src="assets/vis1_world_map/js/queue.min.js"></script>
+<script src="assets/vis1_world_map/js/topojson.js"></script>
+<script src="assets/vis1_world_map/js/d3.min.js"></script>
+<script src="assets/vis1_world_map/js/d3.geo.projection.min.js"></script>
+<script src="assets/vis1_world_map/js/d3.tip.js"></script>
+<script src="assets/vis1_world_map/js/colorbrewer.js"></script>
+
+<!-- Your implementation -->
+<script src="assets/vis1_world_map/js/WorldMap.js"></script>
+<script src="assets/vis1_world_map/js/main.js"></script>
 </body>
 </html>
