@@ -1,6 +1,6 @@
 body {
     font-family: 'Roboto', sans-serif;
-    font-size: 10px;
+    font-size: 12px;
 }
 
 rect.zoom-pane {
@@ -43,6 +43,9 @@ rect.zoom-pane {
     stroke-width: 1.5px;
 }
 
+.zoom-comment {
+    font-size: 10px;
+}
 
 
 /*********************/

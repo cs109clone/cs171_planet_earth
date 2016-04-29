@@ -1,3 +1,5 @@
+// TODO:
+// Add a label to the color bar
 TsunamiRunup = function(_parentElement, _dataFile) {
     this.parentElement = _parentElement;
     this.dataFile = _dataFile;
@@ -78,7 +80,7 @@ TsunamiRunup.prototype.loadData = function() {
 }
 
 TsunamiRunup.prototype.initVis = function() {
-    this.radius_pixels = 250;
+    this.radius_pixels = 400;
     this.max_radius_minutes = 2500;
     this.radius_minutes = this.max_radius_minutes;
     this.n_radial_levels = 7;
@@ -95,8 +97,8 @@ TsunamiRunup.prototype.initVis = function() {
 TsunamiRunup.prototype.createSVG = function() {
     var vis = this;
 
-    this.width = 600;
-    this.height = 600;
+    this.width = 900;
+    this.height = 900;
 
     this.realSVG = d3.select(this.parentElement).append("svg")
         .attr("width", this.width)
@@ -138,30 +140,42 @@ TsunamiRunup.prototype.setupScales = function() {
 TsunamiRunup.prototype.updateLegend = function() {
     var legend = this.svg.append("g");
 
-    var left = -300;
+    var l = -450;
+    var t = 390;
     var step = 35;
 
     legend.append("text")
-        .attr("x", left + 20)
-        .attr("y", 263)
-        .attr("class", "deaths-legend")
+        .attr("x", l + 50)
+        .attr("y", -t - 10)
+        .attr("class", "zoom-comment")
+        .text("Zoom with two fingers or the mouse wheel")
+
+    legend.append("text")
+        .attr("x", l + 20)
+        .attr("y", t + 13)
+        .attr("class", "legend")
         .text("Deaths: ")
 
     for (var i = this.minCircleR; i <= this.maxCircleR; i++) {
         legend.append("circle")
-            .attr("cx", left + step * i)
-            .attr("cy", 260)
+            .attr("cx", l + step * i)
+            .attr("cy", t + 10)
             .attr("r", i);
 
         var label = "10<sup>" + Math.round(Math.log10(this.deathScale.invert(i))) + "</sup>";
         legend.append("foreignObject")
-            .attr("x", left - 15 + step * i)
-            .attr("y", 265)
+            .attr("x", l - 15 + step * i)
+            .attr("y", t + 15)
             .attr("class", "deaths-legend")
             .append("xhtml:body")
             .html(label);
     }
 
+    legend.append("text")
+        .attr("x", -l - 240)
+        .attr("y", t + 15)
+        .attr("class", "legend")
+        .text("Tsunami Runup: ")
     colorbar = Colorbar()
         .barlength(170)
         .thickness(25)
@@ -169,7 +183,7 @@ TsunamiRunup.prototype.updateLegend = function() {
         .orient("horizontal")
 
     var colorbar_g = this.svg.append("g")
-        .attr("transform", "translate(100,240)");
+        .attr("transform", "translate(" + (-l - 150) + "," + t + ")");
     colorbarObject = colorbar_g.call(colorbar);
 
     var n_steps = 4;
@@ -179,6 +193,27 @@ TsunamiRunup.prototype.updateLegend = function() {
             .attr("y", 35)
             .text(Math.pow(10, i - 1) + "m")
     }
+
+    var dist = 400;
+    this.svg.append("text")
+        .attr("x", dist + 2)
+        .attr("y", 4)
+        .text("E");
+
+    this.svg.append("text")
+        .attr("x", -4)
+        .attr("y", -dist - 2)
+        .text("N");
+
+    this.svg.append("text")
+        .attr("x", -dist - 13)
+        .attr("y", 4)
+        .text("W");
+
+    this.svg.append("text")
+        .attr("x", -4)
+        .attr("y", dist + 12)
+        .text("S");
 }
 
 TsunamiRunup.prototype.setupAxes = function() {
@@ -205,26 +240,6 @@ TsunamiRunup.prototype.setupAxes = function() {
         .attr("transform", function(d) { return "rotate(" + -d + ")"; })
         .append("line")
         .attr("x2", vis.radius_pixels)
-
-    vis.svg.append("text")
-        .attr("x", 255)
-        .attr("y", 3)
-        .text("E");
-
-    vis.svg.append("text")
-        .attr("x", -3)
-        .attr("y", -255)
-        .text("N");
-
-    vis.svg.append("text")
-        .attr("x", -263)
-        .attr("y", 3)
-        .text("W");
-
-    vis.svg.append("text")
-        .attr("x", -3)
-        .attr("y", 263)
-        .text("S");
 }
 
 TsunamiRunup.prototype.setupTooltips = function() {
@@ -235,7 +250,8 @@ TsunamiRunup.prototype.setupTooltips = function() {
             d.COUNTRY +
             '</div>' +
             '<div id="tooltip-data">' + 
-            "Deaths: " + vis.deathToll[d.COUNTRY] + 
+            "Location: (" + d.LATITUDE + ", " + d.LONGITUDE + ")" +
+            "<br/>Deaths: " + vis.deathToll[d.COUNTRY] + 
             "<br/>Runup: " + vis.maxRunupByCountry[d.COUNTRY] + "m" +
             '</div>';
     });
@@ -294,7 +310,9 @@ TsunamiRunup.prototype.update = function() {
             return "rotate(" + (d.angleFromEpicenter - 90) + ")";
         })
         .on('mouseover', this.tip.show)
-        .on('mouseout', this.tip.hide);
+        .on('mouseout', this.tip.hide)
+        .attr("stroke-width", "1.5px")
+        .attr("opacity", 0.7);
 
     var xFunc = function (d) {
         return vis.rScale(d.travelTime);
@@ -309,4 +327,10 @@ TsunamiRunup.prototype.update = function() {
             }
             return vis.runupScale(vis.maxRunupByCountry[d.COUNTRY]); 
         })
+        .attr("stroke", function (d) {
+            if (d.travelTime > rDomainMax) {
+                return "none";
+            }
+            return "black";
+        });
 }
