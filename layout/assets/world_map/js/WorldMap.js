@@ -60,7 +60,7 @@ WorldMap.prototype.createSVG = function() {
 	var vis = this;
 
 	// Map
-	vis.margin = {top: 50, right: 40, bottom: 220, left: 250};
+	vis.margin = {top: 50, right: 40, bottom: 220, left: 180};
 	vis.width = 1200 - vis.margin.left - vis.margin.right;
 	vis.height = 800 - vis.margin.top - vis.margin.bottom;
 
