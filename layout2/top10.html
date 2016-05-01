@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Top 10 Disaster Events</title>
+<link rel="stylesheet" href="page.css" />
+<link rel="stylesheet" href="top10_disasters/css/bootstrap.min.css">
+<link rel="stylesheet" href="top10_disasters/css/style.css">
+<link rel="stylesheet" href='top10_disasters/css/font-awesome.min.css'>
+<style>
+#mainContainer{
+	position: absolute;
+	top:10%;
+	left:10%;
+}
+</style>
+</head>
+<body>
+
+<div id="navigate">
+	<a href="main2.html">
+		<div id="main" onmouseover="open1()" onmouseleave="close1()" ><p id="mainT">Main</p></div>
+	</a>
+	<a href="map.html">
+		<div id="map"><p id="mapT">Map</p></div>
+	</a>
+	<a href="volcano.html">
+		<div id="volcano"><p id="volcanoT">Volcano</p></div>
+	</a>
+	<a href="tsunami.html">	
+		<div id="tsunami"><p id="tsunamiT">Tsunami</p></div>
+	</a>	
+	<a href="haiti.html">
+		<div id="earthquake"><p id="earthquakeT">Earthquake</p></div>
+	</a>
+	<a href="top10.html">	
+		<div id="top10"><p id="top10T">Top 10</p></div>
+	</a>	
+
+</div>
+<div id="mainContainer">
+		<form class="form-inline">
+		<div class="form-group">
+			<label for="top10-data">Top 10 Data:</label>
+			<select class="form-control" id="top10-data">
+				<option value="deaths">Deaths</option>
+				<option value="affected">Affected</option>
+				<option value="damage">Damage</option>
+			</select>
+		</div>
+	</form>
+	<div id="cluster-area"></div>
+</div>
+
+
+<script src="http://code.jquery.com/jquery-1.10.2.js"></script>
+<script src="http://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+<script src="page.js"></script>
+<script src="top10_disasters/js/bootstrap.min.js"></script>
+<script src="top10_disasters/js/queue.min.js"></script>
+<script src="top10_disasters/js/topojson.js"></script>
+<script src="top10_disasters/js/d3.min.js"></script>
+<script src="top10_disasters/js/d3.geo.projection.min.js"></script>
+<script src="top10_disasters/js/d3.tip.js"></script>
+<script src="top10_disasters/js/colorbrewer.js"></script>
+
+	<!-- Your implementation -->
+<script src="top10_disasters/js/Top10.js"></script>
+<script src="top10_disasters/js/main.js"></script>
+</body>
+</html>

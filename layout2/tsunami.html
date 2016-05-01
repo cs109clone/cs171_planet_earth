@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>page</title>
+<link rel="stylesheet" href="page.css" />
+<link href='https://fonts.googleapis.com/css?family=Roboto:100,400,300,400italic,700' rel='stylesheet' type='text/css'>
+<link rel="stylesheet" href="//rawgithub.com/Caged/d3-tip/master/examples/example-styles.css">
+<link rel="stylesheet" href="polar_tsunami/css/style.css">
+<style>
+#mainContainer{
+	position:absolute;
+	top:5%;
+}
+</style>
+</head>
+<body>
+
+<div id="navigate">
+	<a href="main2.html">
+		<div id="main" onmouseover="open1()" onmouseleave="close1()" ><p id="mainT">Main</p></div>
+	</a>
+	<a href="map.html">
+		<div id="map"><p id="mapT">Map</p></div>
+	</a>
+	<a href="volcano.html">
+		<div id="volcano"><p id="volcanoT">Volcano</p></div>
+	</a>
+	<a href="tsunami.html">	
+		<div id="tsunami"><p id="tsunamiT">Tsunami</p></div>
+	</a>	
+	<a href="haiti.html">
+		<div id="earthquake"><p id="earthquakeT">Earthquake</p></div>
+	</a>
+	<a href="top10.html">	
+		<div id="top10"><p id="top10T">Top 10</p></div>
+	</a>	
+
+</div>
+<div id="mainContainer">
+    <div id="tsunami-runup"></div>
+</div>
+
+<script src="http://code.jquery.com/jquery-1.10.2.js"></script>
+<script src="http://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+
+<script src="page.js"></script>
+<script src="https://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+<script src="polar_tsunami/js/d3.tip.js"></script>
+<script src="polar_tsunami/js/colorbar.js"></script>
+
+    <!-- Load data, create visualizations -->
+<script src="polar_tsunami/js/tsunami_runup.js"></script>
+<script src="polar_tsunami/js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,64 @@
+body {
+    font-family: 'Roboto', sans-serif;
+    font-size: 12px;
+}
+
+rect.zoom-pane {
+  cursor: move;
+  fill: none;
+  pointer-events: all;
+}
+
+.colorbar .axis line{
+    fill: none;
+    stroke: black;
+    shape-rendering: crispEdges;
+}
+
+.colorbar .axis .domain{
+    fill: none;
+    stroke: black;
+    shape-rendering: crispEdges;
+}
+
+.axis line {
+    fill: none;
+    stroke: #777;
+    stroke-dasharray: 1,4;
+}
+
+.axis circle {
+    fill: none;
+    stroke: #777;
+}
+
+.axis :last-of-type circle {
+    stroke: #333;
+    stroke-dasharray: none;
+}
+
+.line {
+    fill: none;
+    stroke: red;
+    stroke-width: 1.5px;
+}
+
+.zoom-comment {
+    font-size: 10px;
+}
+
+
+/*********************/
+/*  TOOLTIP OVERLAY  */
+/*********************/
+
+.tooltip-title {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 600;
+}
+
+.tooltip-data {
+    display: block;
+    padding-top: 10px;
+}
