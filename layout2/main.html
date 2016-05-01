@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Planet Earth</title>
+<style>
+#main{
+	width: 100%;
+	height:600px;
+}
+#backgroundIMG{
+	width:100%;
+	height:100%;
+	opacity:0.5;
+}
+
+#headDesign{
+	position: relative;
+	left:20px;
+	top: 20px;
+}
+
+#head-nature{
+	font-size: 100px;
+	color:white;
+	position: absolute;
+	left:60px;
+	top:70px;
+
+}
+
+#head-disaster{
+	font-size: 120px;
+	color: white;
+	position:absolute;
+	left: 100px;
+	top:130px;
+
+}
+
+#visContainer{
+	width:52%;
+	height:83%;
+	/*border: 1px black solid;*/
+	position: absolute;
+	left:42%;
+	top: 10%;
+}
+
+#mapDiv{
+	background-color: #F9966B;
+	width:100%;
+	height:36%;
+/*	border: 1px black solid;*/
+	position: absolute;
+	left:0%;
+	top:0%;
+	opacity: 0.8;
+
+}
+#mapDiv2{
+	background-image: url("pic/map.png");
+	background-size: 100% 100%;
+	opacity: 0.7;
+	width:100%;
+	height:36%;
+	/*border: 1px black solid;*/
+	position: absolute;
+	left:0%;
+	top:0%;
+
+}
+h3{
+	font-size: 50px;
+	color:white;
+	position: absolute;
+	left:40%;
+	top:12%;
+}
+
+h2{
+	font-size: 50px;
+	color:white;
+	position: absolute;
+	left:20%;
+	top:15%;
+}
+#memberNames{
+	position:absolute;
+	left:12%;
+	top:55%;
+}
+
+h6{
+	font-size: 18px;
+	color:white;
+}
+#tsunamiDiv{
+	background-color: #438D80;
+	opacity: 0.8;
+	width:50%;
+	height:32%;
+	/*border: 1px black solid;*/
+	position: absolute;
+	left:0%;
+	top:36%;
+}
+
+#tsunamiDiv2{
+	background-image: url("pic/tsunami.png");
+	background-size: 100% 100%;
+	opacity: 0.7;
+	width:50%;
+	height:32%;
+	/*border: 1px black solid;*/
+	position: absolute;
+	left:0%;
+	top:36%;
+}
+
+
+
+#icelandDiv{
+	background-color: #FFCBA4;
+	opacity: 0.8;
+	width:50%;
+	height:32%;
+	/*border: 1px black solid;*/
+	position: absolute;
+	left:50%;
+	top:36%;
+}
+#icelandDiv2{
+	background-image: url("pic/iceland.png");
+	background-size: 100% 100%;
+	opacity: 0.7;
+	width:50%;
+	height:32%;
+	/*border: 1px black solid;*/
+	position: absolute;
+	left:50%;
+	top:36%;
+}
+
+#haitiDiv{
+	background-color: #3CA7BD;
+	opacity: 0.8;
+	width:50%;
+	height:32%;
+	/*border: 1px black solid;*/
+	position: absolute;
+	left:0%;
+	top:68%;
+}
+#haitiDiv2{
+	background-image: url("pic/haiti.png");
+	background-size: 100% 100%;
+	opacity: 0.7;
+	width:50%;
+	height:32%;
+/*	border: 1px black solid;*/
+	position: absolute;
+	left:0%;
+	top:68%;
+}
+#top10Div{
+	background-color: #B1C746;
+	opacity: 0.8;
+	width:50%;
+	height:32%;
+	/*border: 1px black solid;*/
+	position: absolute;
+	left:50%;
+	top:68%;
+}
+#top10Div2{
+	background-image: url("pic/top10.png");
+	background-size: 100% 100%;
+	opacity: 0.7;
+	width:50%;
+	height:32%;
+	/*border: 1px black solid;*/
+	position: absolute;
+	left:50%;
+	top:68%;
+}
+
+h4{
+	font-size: 16px;
+	position:absolute;
+	left:3%;
+	top:55%;
+	background-color:#E55451; 
+	color: black;
+}
+h5{
+	font-size: 18px;
+	position:absolute;
+	left:2%;
+	top:55%;
+	background-color:#E55451; 
+	color: black;
+}
+
+
+
+</style>
+
+
+</head>
+<body>
+<div id="main">
+	<img src = "pic/nature1.jpg" alt="background" id="backgroundIMG">
+	<h1 id="head-nature">Nature</h1>
+	<h1 id="head-disaster">Disaster</h1>
+	<div id="memberNames">
+		<h6>FERNANDO BECERRA<br>
+		TIANYUN XU<br>
+		BEN THOMPSON<br>
+		KAHUNUI FOSTER</h6>
+	</div>
+	<div id="visContainer">
+		<div id="mapDiv" onmouseover="change1()" >
+			<h3>Map</h3>
+		</div>
+		<div id="mapDiv2" onmouseleave="change2()">
+			<h5>Map for natural disatsers from 1900 to 2016</h5>
+		</div>
+		<div id="tsunamiDiv" onmouseover="change3()">
+			<h2>Tsunami</h2>
+		</div>
+		<div id="tsunamiDiv2" onmouseleave="change4()">
+			<h4>Indonesia tsunami (2014) runup polar map </h4>
+		</div>
+		<div id="icelandDiv" onmouseover="change5()">
+			<h2>Volcano</h2>
+		</div>
+		<div id="icelandDiv2" onmouseleave="change6()">
+			<h4>Iceland volcanic ash blocked airports (2010)</h4>
+		</div>
+		<div id="haitiDiv" onmouseover="change7()">
+			<h2>Earthquake</h2>
+		</div>
+		<div id="haitiDiv2" onmouseleave="change8()">
+			<h4>Haiti earthquake(2010): damaged houses in EMS-98 Damage classes</h4>
+		</div>
+		<div id="top10Div" onmouseover="change9()">
+			<h2>Top 10</h2>
+		</div>	
+		<div id="top10Div2" onmouseleave="change10()">
+			<h4>Top 10 natural disaster events that caused most death, affected most people and cost most.</h4>
+		</div>	
+			
+	</div>
+
+
+</div>
+
+<script src="http://code.jquery.com/jquery-1.10.2.js"></script>
+<script src="http://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+<script>
+$("#mapDiv2").hide();
+$("#tsunamiDiv2").hide();
+$("#icelandDiv2").hide();
+$("#haitiDiv2").hide();
+$("#top10Div2").hide();
+
+function change1(){	
+	$("#mapDiv").hide();
+	$("#mapDiv2").fadeIn();
+}	
+
+function change2(){
+	$("#mapDiv2").hide();
+	$("#mapDiv").fadeIn();
+}
+function change3(){	
+	$("#tsunamiDiv").hide();
+	$("#tsunamiDiv2").fadeIn();
+}	
+
+function change4(){
+	$("#tsunamiDiv2").hide();
+	$("#tsunamiDiv").fadeIn();
+}
+function change5(){	
+	$("#icelandDiv").hide();
+	$("#icelandDiv2").fadeIn();
+}	
+
+function change6(){
+	$("#icelandDiv2").hide();
+	$("#icelandDiv").fadeIn();
+}
+function change7(){	
+	$("#haitiDiv").hide();
+	$("#haitiDiv2").fadeIn();
+}	
+
+function change8(){
+	$("#haitiDiv2").hide();
+	$("#haitiDiv").fadeIn();
+}
+function change9(){	
+	$("#top10Div").hide();
+	$("#top10Div2").fadeIn();
+}	
+
+function change10(){
+	$("#top10Div2").hide();
+	$("#top10Div").fadeIn();
+}
+
+</script>
+
+</body>
+</html>
