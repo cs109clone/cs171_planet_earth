@@ -1,0 +1,56 @@
+$("#mainT").hide()
+$("#mapT").hide()
+$("#volcanoT").hide()
+$("#tsunamiT").hide()
+$("#earthquakeT").hide()
+$("#top10T").hide()
+
+function open1(){
+	$("#main").animate({height:"10%"});
+	$("#mainT").fadeIn()
+}
+function close1(){
+	$("#main").animate({height:"5%"});
+	$("#mainT").fadeOut();
+}
+$("#map").mouseover(function(){
+	$("#map").animate({height:"10%"});
+	$("#mapT").fadeIn()
+});
+$("#map").mouseleave(function(){
+	$("#map").animate({height:"5%"});
+	$("#mapT").fadeOut();
+
+});
+$("#volcano").mouseover(function(){
+	$("#volcano").animate({height:"10%"});
+	$("#volcanoT").fadeIn()
+});
+$("#volcano").mouseleave(function(){
+	$("#volcano").animate({height:"5%"});
+	$("#volcanoT").fadeOut();
+});
+$("#tsunami").mouseover(function(){
+	$("#tsunami").animate({height:"10%"});
+	$("#tsunamiT").fadeIn()
+});
+$("#tsunami").mouseleave(function(){
+	$("#tsunami").animate({height:"5%"});
+	$("#tsunamiT").fadeOut();
+});
+$("#earthquake").mouseover(function(){
+	$("#earthquake").animate({height:"10%"});
+	$("#earthquakeT").fadeIn()
+});
+$("#earthquake").mouseleave(function(){
+	$("#earthquake").animate({height:"5%"});
+	$("#earthquakeT").fadeOut();
+});
+$("#top10").mouseover(function(){
+	$("#top10").animate({height:"10%"});
+	$("#top10T").fadeIn()
+});
+$("#top10").mouseleave(function(){
+	$("#top10").animate({height:"5%"});
+	$("#top10T").fadeOut();
+});

@@ -1,0 +1,118 @@
+#navigate{
+	position: fixed;
+	width: 100%;
+	height:5%;
+	/*border: 1px black solid;*/
+	top:0px;
+	left:0px;
+	cursor:pointer;
+}
+#main{
+	position: fixed;
+	width: 10%;
+	height:5%;
+	/*border: 1px black solid;*/
+	top:0px;
+	left:0px;
+	background-color: #B5A642; 
+	opacity: 0.8
+
+}
+#mainT{
+	color:white;
+	position:absolute;
+	left:28%;
+	top:10%;
+	font-size: 22px;
+	font-family: sans-serif;
+}
+#map{
+	position: fixed;
+	width: 18%;
+	height:5%;
+	/*border: 1px black solid;*/
+	top:0px;
+	left:10%;
+	background-color: #F9966B; 
+	opacity: 0.8
+}
+#mapT{
+	color:white;
+	position:absolute;
+	left:28%;
+	top:10%;
+	font-size: 22px;
+	font-family: sans-serif;
+}
+#volcano{
+	position: fixed;
+	width: 18%;
+	height:5%;
+	/*border: 1px black solid;*/
+	top:0px;
+	left:28%;
+	background-color: #FFCBA4; 
+	opacity: 0.8
+}
+#volcanoT{
+	color:white;
+	position:absolute;
+	left:28%;
+	top:10%;
+	font-size: 22px;
+	font-family: sans-serif;
+}
+#tsunami{
+	position: fixed;
+	width: 18%;
+	height:5%;
+	/*border: 1px black solid;*/
+	top:0px;
+	left:46%;
+	background-color: #438D80; 
+	opacity: 0.8
+}
+#tsunamiT{
+	color:white;
+	position:absolute;
+	left:28%;
+	top:10%;
+	font-size: 22px;
+	font-family: sans-serif;
+}
+#earthquake{
+	position: fixed;
+	width: 18%;
+	height:5%;
+	/*border: 1px black solid;*/
+	top:0px;
+	left:64%;
+	background-color: #3CA7BD; 
+	opacity: 0.8
+}
+#earthquakeT{
+	color:white;
+	position:absolute;
+	left:28%;
+	top:10%;
+	font-size: 22px;
+	font-family: sans-serif;
+}
+#top10{
+	position: fixed;
+	width: 18%;
+	height:5%;
+	/*border: 1px black solid;*/
+	top:0px;
+	left:82%;
+	background-color: #B1C746; 
+	opacity: 0.8
+}
+#top10T{
+	color:white;
+	position:absolute;
+	left:28%;
+	top:10%;
+	font-size: 22px;
+	font-family: sans-serif;
+}
