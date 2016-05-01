@@ -29,10 +29,6 @@
   fill: #ccc !important;
 }
 
-.bar:hover {
-  cursor: pointer;
-}
-
 .path {
   stroke: #000;
   fill: #f6e8c3;

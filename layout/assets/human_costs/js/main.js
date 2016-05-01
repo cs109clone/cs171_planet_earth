@@ -3,7 +3,7 @@ main();
 var top10;
 
 function main() {
-    top10 = new Top10("#cluster-area", "data/top10.csv");
+    top10 = new Top10("#cluster-area", "assets/human_costs/data/top10.csv");
 }
 
 function updateVis(){

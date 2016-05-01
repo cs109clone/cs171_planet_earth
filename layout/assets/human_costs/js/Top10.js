@@ -2,7 +2,7 @@ Top10 = function(_parentElement, _dataTop10) {
     this.parentElement = _parentElement;
     this.dataTop10 = _dataTop10;
     this.loadData();
-}
+};
 
 Top10.prototype.loadData = function() {
     var vis = this;
@@ -16,22 +16,16 @@ Top10.prototype.loadData = function() {
             d.Total_damage = +d.Total_damage;
             d.Total_deaths = +d.Total_deaths;
 
-        })
+        });
 
         vis.allData = csvData;
-
-        var categories = d3.nest()
-            .key(function (d) {
-                return d.category;
-            })
-            .entries(csvData);
 
         vis.tip.html(function (d) {
             return "" + (d.disaster == "Volcanic" ? "Volcanic eruption" : d.disaster) + "</br>" +
                 "Location: " + d.country + "</br>" +
                 "Year: " + d.year + "</br>" +
                 "Total " + d.category + (d.category == "damage" ? " (in USD)" : "") + ": " + d.number
-        })
+        });
 
         vis.updateVis();
 
@@ -40,13 +34,13 @@ Top10.prototype.loadData = function() {
 
     })
 
-}
+};
 
 Top10.prototype.initVis = function() {
 
     this.padding = 1.5; // separation between same-color nodes
     this.clusterPadding = 6; // separation between different-color nodes
-    this.smaxRadius = 12;
+    this.maxRadius = 12;
     this.legendBoxWidth = 20;
     this.legendBoxHeight = 20;
 
@@ -54,35 +48,34 @@ Top10.prototype.initVis = function() {
 
     this.createSVG();
     this.setupScale();
-}
+};
 
 Top10.prototype.createSVG = function() {
     var vis = this;
 
-    vis.margin = {top: 10, right: 10, bottom: 10, left: 40}
-    vis.marginLegend = {top: 80, right: 50, bottom: 10, left: 20};
+    vis.margin = {top: 10, right: 10, bottom: 310, left: 40};
+    vis.marginLegend = {top: 680, right: 50, bottom: 10, left: 20};
 
-    vis.width = 600 - vis.margin.left - vis.margin.right,
-    vis.height = 600 - vis.margin.top - vis.margin.bottom,
-    vis.widthLegend = 600 - vis.marginLegend.left - vis.marginLegend.right,
-    vis.heightLegend = 300 - vis.marginLegend.top - vis.marginLegend.bottom;
+    vis.width = 600 - vis.margin.left - vis.margin.right;
+    vis.height = 900 - vis.margin.top - vis.margin.bottom;
+    vis.widthLegend = 600 - vis.marginLegend.left - vis.marginLegend.right;
+    vis.heightLegend = 900 - vis.marginLegend.top - vis.marginLegend.bottom;
 
     vis.tip = d3.tip()
-        .attr('class', 'd3-tip')
+        .attr('class', 'd3-tip');
 
     vis.svg = d3.select(vis.parentElement).append("svg")
         .attr("width", vis.width + vis.margin.left + vis.margin.right)
-        .attr("height", vis.height + vis.margin.top + vis.margin.bottom)
-        .append("g")
+        .attr("height", vis.height + vis.margin.top + vis.margin.bottom);
+
+    vis.svgClusters = vis.svg.append("g")
         .attr("transform", "translate(" + vis.margin.left + "," + vis.margin.top + ")")
         .call(vis.tip);
 
-    vis.svgLegend = d3.select("#legend-area").append("svg")
-        .attr("width", vis.widthLegend + vis.marginLegend.left + vis.marginLegend.right)
-        .attr("height", vis.heightLegend + vis.marginLegend.top + vis.marginLegend.bottom).append("g")
+    vis.svgLegend = vis.svg.append("g")
         .attr("class", "legend")
         .attr("transform", "translate(" + vis.marginLegend.left + "," + vis.marginLegend.top + ")")
-}
+};
 
 
 Top10.prototype.setupScale = function() {
@@ -90,12 +83,20 @@ Top10.prototype.setupScale = function() {
 
     vis.color = d3.scale.ordinal()
         .range(["#2ca02c", "#d62728", "#1f77b4"])
-        .domain(vis.categories)
+        .domain(vis.categories);
 
-    vis.radius = d3.scale.linear()
-        .range([2, 80]);
+    vis.radius = {};
 
-}
+    vis.radius["deaths"] = d3.scale.linear()
+        .range([2, 60]);
+
+    vis.radius["affected"] = d3.scale.linear()
+        .range([2, 100]);
+
+    vis.radius["damage"] = d3.scale.linear()
+        .range([2, 120]);
+
+};
 
 
 Top10.prototype.updateVis = function() {
@@ -105,22 +106,22 @@ Top10.prototype.updateVis = function() {
 
     vis.filteredData = vis.allData.filter(function (d) {
         return d.category == vis.selectedData;
-    })
+    });
 
     // The largest node for each cluster.
     vis.clusters = new Array(3);
 
-    vis.radius.domain(d3.extent(vis.filteredData, function (d) {
+    vis.radius[vis.selectedData].domain(d3.extent(vis.filteredData, function (d) {
         return d["Total_"+vis.selectedData];
-    }))
+    }));
 
     vis.nodes = vis.filteredData.map(function (d) {
         var i = getIndex(d.disaster),
-            r = vis.radius(d["Total_"+vis.selectedData]),
-            d = {cluster: i, radius: r, year: d.year, country: d["Country name"],
+            r = vis.radius[vis.selectedData](d["Total_"+vis.selectedData]),
+            c = {cluster: i, radius: r, year: d.year, country: d["Country name"],
                 disaster: d.disaster, number: d["Total_"+vis.selectedData], category: vis.selectedData};
-        if (!vis.clusters[i] || (r > vis.clusters[i].radius)) vis.clusters[i] = d;
-        return d;
+        if (!vis.clusters[i] || (r > vis.clusters[i].radius)) vis.clusters[i] = c;
+        return c;
     });
 
 
@@ -150,10 +151,10 @@ Top10.prototype.updateVis = function() {
         .on("tick", tick)
         .start();
 
-    vis.node = vis.svg.selectAll(".node")
-        .data(vis.nodes)
+    vis.node = vis.svgClusters.selectAll(".node")
+        .data(vis.nodes);
 
-    vis.node.enter().append("circle")
+    vis.node.enter().append("circle");
 
     vis.node.exit().remove();
 
@@ -172,7 +173,7 @@ Top10.prototype.updateVis = function() {
         })
         .on("mouseout", function(d){
             vis.tip.hide(d);
-        })
+        });
 
 
     vis.node.transition()
@@ -189,11 +190,12 @@ Top10.prototype.updateVis = function() {
 
     // Legend
 
-    vis.legendData = [vis.radius.domain()[0], Math.floor((vis.radius.domain()[0] + vis.radius.domain()[1])/2), vis.radius.domain()[1]]
+    vis.legendData = [vis.radius[vis.selectedData].domain()[0],
+        Math.floor((vis.radius[vis.selectedData].domain()[0] + vis.radius[vis.selectedData].domain()[1])/2), vis.radius[vis.selectedData].domain()[1]];
 
 
     vis.legendCircles = vis.svgLegend.selectAll(".legend")
-        .data(vis.legendData)
+        .data(vis.legendData);
 
     vis.legendCircles.enter()
         .append("circle");
@@ -203,19 +205,19 @@ Top10.prototype.updateVis = function() {
 
     vis.legendCircles.attr("class", "legend")
         .attr("cx", vis.widthLegend / 3)
-        .attr("cy", function(d, i){
-            return 100 - vis.radius(d)
+        .attr("cy", function(d){
+            return 100 - vis.radius[vis.selectedData](d)
         })
         .style("fill", "none")
         .style("stroke", "darkgrey")
         .style("stroke-width", "0.5px")
         .style("stroke-opacity", 1)
         .attr("r", function(d) {
-            return vis.radius(d);
-        })
+            return vis.radius[vis.selectedData](d);
+        });
 
     vis.legendText = vis.svgLegend.selectAll("text")
-        .data(vis.legendData)
+        .data(vis.legendData);
 
     vis.legendText.enter()
         .append("text");
@@ -224,18 +226,18 @@ Top10.prototype.updateVis = function() {
         .remove();
 
     vis.legendText.attr("x", vis.widthLegend / 3)
-        .attr("y", function(d, i){
-            return 100 - 2 * vis.radius(d) - 5
+        .attr("y", function(d){
+            return 100 - 2 * vis.radius[vis.selectedData](d) - 5
         })
         .attr("font-size", "10px")
         .style("text-anchor", "middle")
         .text(function(d) {
             return "" + d
-        })
+        });
 
 
     vis.legendBoxes = vis.svgLegend.selectAll("rect")
-        .data(vis.categories)
+        .data(vis.categories);
 
     vis.legendBoxes.enter()
         .append("rect");
@@ -255,7 +257,7 @@ Top10.prototype.updateVis = function() {
         .style("opacity", 0.8);
 
     vis.legendLabel = vis.svgLegend.selectAll(".legendLabel")
-        .data(vis.categories)
+        .data(vis.categories);
 
     vis.legendLabel.enter()
         .append("text");
@@ -270,7 +272,7 @@ Top10.prototype.updateVis = function() {
         })
         .attr("font-size", "10px")
         .style("text-anchor", "left")
-        .text(function(d, i){
+        .text(function(d){
             if (d == "Earthquake"){
                 return "Earthquakes"
             } else if (d == "Volcanic"){
@@ -278,10 +280,10 @@ Top10.prototype.updateVis = function() {
             } else if (d == "Tsunami"){
                 return "Tsunamis"
             }
-        })
+        });
 
     vis.legendTitle = vis.svgLegend.selectAll(".title")
-        .data([vis.selectedData])
+        .data([vis.selectedData]);
 
     vis.legendTitle.enter()
         .append("text");
@@ -300,7 +302,7 @@ Top10.prototype.updateVis = function() {
             } else {
                 return "Total " + d;
             }
-        })
+        });
 
 
     function tick(e) {
@@ -375,5 +377,5 @@ Top10.prototype.updateVis = function() {
         }
     }
 
-}
+};
 

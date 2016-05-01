@@ -4,7 +4,7 @@ WorldMap = function(_parentElement, _dataMap, _dataPlates, _dataDisasters) {
 	this.dataPlates = _dataPlates;
 	this.dataDisasters = _dataDisasters;
 	this.loadData();
-}
+};
 
 WorldMap.prototype.loadData = function() {
 	var vis = this;
@@ -34,12 +34,10 @@ WorldMap.prototype.loadData = function() {
 			vis.displayVis();
 
 			d3.select("#map-data").on("change", updateHistogram);
-			d3.select("#checkbox-plates").on("change", updatePlates);
-
 
 		});
 
-}
+};
 
 WorldMap.prototype.initVis = function() {
 
@@ -56,57 +54,46 @@ WorldMap.prototype.initVis = function() {
 	this.setupScale();
 	this.setupAxes();
 	this.setupProjection();
-}
+};
 
 WorldMap.prototype.createSVG = function() {
 	var vis = this;
 
 	// Map
-	vis.margin = {top: 50, right: 40, bottom: 20, left: 200};
-	vis.width = 1200 - vis.margin.left - vis.margin.right,
-	vis.height = 600 - vis.margin.top - vis.margin.bottom;
+	vis.margin = {top: 50, right: 40, bottom: 220, left: 250};
+	vis.width = 1200 - vis.margin.left - vis.margin.right;
+	vis.height = 800 - vis.margin.top - vis.margin.bottom;
 
 	vis.tip = d3.tip()
-		.attr('class', 'd3-tip')
+		.attr('class', 'd3-tip');
 
 	vis.svg = d3.select(vis.parentElement).append("svg")
 		.attr("width", vis.width + vis.margin.left + vis.margin.right)
-		.attr("height", vis.height + vis.margin.top + vis.margin.bottom)
+		.attr("height", vis.height + vis.margin.top + vis.margin.bottom);
 
-	vis.svg.append("rect")
-		.attr("width", "100%")
-		.attr("height", "100%")
-		.attr("fill", "#e0f3f8")
-
-	vis.svg = vis.svg.append("g")
+	vis.svgMap = vis.svg.append("g")
 		.attr("transform", "translate(" + vis.margin.left + "," + vis.margin.top + ")")
-		.call(vis.tip)
+		.call(vis.tip);
 
 
 	// Timeline - Histogram
-	vis.marginTimeline = {top: 10, right: 30, bottom: 50, left: 40};
+	vis.marginTimeline = {top: 610, right: 300, bottom: 50, left: 40};
 
-	vis.widthTimeline = 1100 - vis.marginTimeline.left - vis.marginTimeline.right,
-	vis.heightTimeline = 200 - vis.marginTimeline.top - vis.marginTimeline.bottom;
+	vis.widthTimeline = 1200 - vis.marginTimeline.left - vis.marginTimeline.right;
+	vis.heightTimeline = 800 - vis.marginTimeline.top - vis.marginTimeline.bottom;
 
-	vis.svgTimeline = d3.select("#timeline").append("svg")
-		.attr("width", vis.widthTimeline + vis.marginTimeline.left + vis.marginTimeline.right)
-		.attr("height", vis.heightTimeline + vis.marginTimeline.top + vis.marginTimeline.bottom)
-		.append("g")
+	vis.svgTimeline = vis.svg.append("g")
 		.attr("transform", "translate(" + vis.marginTimeline.left + "," + vis.marginTimeline.top + ")");
 
 	// Legend
-	vis.marginLegend = {top: 50, right: 10, bottom: 10, left: 40};
+	vis.marginLegend = {top: 650, right: 10, bottom: 50, left: 950};
 
-	vis.widthLegend = 300 - vis.marginLegend.left - vis.marginLegend.right,
-		vis.heightLegend = 200 - vis.marginLegend.top - vis.marginLegend.bottom;
+	vis.widthLegend = 1200 - vis.marginLegend.left - vis.marginLegend.right;
+	vis.heightLegend = 800 - vis.marginLegend.top - vis.marginLegend.bottom;
 
-	vis.svgLegend = d3.select("#legend-area").append("svg")
-		.attr("width", vis.widthLegend + vis.marginLegend.left + vis.marginLegend.right)
-		.attr("height", vis.heightLegend + vis.marginLegend.top + vis.marginLegend.bottom)
-		.append("g")
+	vis.svgLegend = vis.svg.append("g")
 		.attr("transform", "translate(" + vis.marginLegend.left + "," + vis.marginLegend.top + ")");
-}
+};
 
 
 WorldMap.prototype.setupScale = function() {
@@ -127,14 +114,31 @@ WorldMap.prototype.setupScale = function() {
 
 	vis.color = d3.scale.ordinal()
 		.range(["#2ca02c", "#d62728", "#1f77b4"])
-		.domain(vis.disasters)
+		.domain(vis.disasters);
 
 	vis.brush = d3.svg.brush()
 		.x(vis.xTimeline)
 		.on("brush", brushed)
 		.on("brushend", brushed);
 
-}
+	function brushed() {
+		 vis.rangeDates = vis.brush.empty() ? vis.xTimeline.domain() : vis.brush.extent();
+		 vis.filteredData = vis.data.filter(function(d){
+		 	return vis.formatDate(vis.rangeDates[0]) <= vis.formatDate(d.TIME) && vis.formatDate(d.TIME) <= vis.formatDate(vis.rangeDates[1]);
+		 });
+		 if (vis.selectedData == "all") {
+		 	vis.svgTimeline.selectAll(".rect").classed("hidden-bar", function (d) {
+		 		return !(vis.formatDate(vis.rangeDates[0]) <= vis.formatDate(d.date) && vis.formatDate(d.date) <= vis.formatDate(vis.rangeDates[1]));
+		 	});
+		 } else {
+		 	vis.svgTimeline.selectAll(".bar").classed("hidden-bar", function (d) {
+		 		return !(vis.formatDate(vis.rangeDates[0]) <= vis.formatDate(d.date) && vis.formatDate(d.date) <= vis.formatDate(vis.rangeDates[1]));
+			});
+		 }
+		 vis.updateMap();
+	 }
+
+};
 
 WorldMap.prototype.setupAxes = function() {
 	var vis = this;
@@ -148,7 +152,7 @@ WorldMap.prototype.setupAxes = function() {
 		.scale(vis.yTimeline)
 		.orient("left");
 
-}
+};
 
 WorldMap.prototype.setupProjection = function() {
 	var vis = this;
@@ -161,14 +165,13 @@ WorldMap.prototype.setupProjection = function() {
 
 	vis.path = d3.geo.path()
 		.projection(vis.projection);
-}
 
+	vis.svgMap.append("path")
+		.datum({type: "Sphere"})
+		.attr("d", vis.path)
+		.style("fill", "#e0f3f8");
+};
 
-WorldMap.prototype.updatePlates = function() {
-	var vis = this;
-	vis.showPlates = d3.select("#checkbox-plates").property("checked");
-	d3.selectAll(".plates").classed("hidden", function(d){return !vis.showPlates})
-}
 
 WorldMap.prototype.displayVis = function() {
 	var vis = this;
@@ -191,13 +194,13 @@ WorldMap.prototype.displayVis = function() {
 			return d.MAGNITUDE;
 		}));
 
-	vis.svg.append("g").selectAll("path")
+	vis.svgMap.append("g").selectAll("path")
 		.data(vis.world)
 		.enter().append("path")
 		.attr("class", "path")
 		.attr("d", vis.path);
 
-	vis.svg.append("g").selectAll(".plates")
+	vis.svgMap.append("g").selectAll(".plates")
 		.data(vis.plates)
 		.enter().append("path")
 		.attr("class", "plates")
@@ -210,13 +213,26 @@ WorldMap.prototype.displayVis = function() {
 		.attr("class", "y-axis axis");
 
 	vis.svgTimeline.select(".x-axis")
-		.attr("transform", "translate(0," + vis.heightTimeline + ")")
+		.attr("transform", "translate(0," + vis.heightTimeline + ")");
 
 	vis.svgTimeline.select(".y-axis")
-		.attr("transform", "translate(0,0)")
+		.attr("transform", "translate(0,0)");
+
+	vis.svgTimeline.selectAll(".x-axis").append("g")
+		.attr("class", "label x-label")
+		.append("text")
+		.text("Year")
+		.attr("transform", "translate(" + (vis.widthTimeline - 20) + ", 15)");
+
+	vis.svgTimeline.selectAll(".y-axis").append("g")
+		.attr("class", "label y-label")
+		.append("text")
+		.style("text-anchor", "middle")
+		.text("Number of events")
+		.attr("transform", "translate(-30," + (vis.heightTimeline / 2) + ") rotate(-90)");
 
 	vis.updateHistogram();
-}
+};
 
 
 WorldMap.prototype.updateHistogram = function() {
@@ -224,7 +240,7 @@ WorldMap.prototype.updateHistogram = function() {
 	var vis = this;
 
 	vis.selectedData = d3.select("#map-data").property("value");
-	d3.selectAll(".brush").call(brushMapClear())
+	d3.selectAll(".brush").call(brushMapClear());
 
 	if (vis.selectedData == "all"){
 		vis.data = vis.allData;
@@ -240,7 +256,7 @@ WorldMap.prototype.updateHistogram = function() {
 		return d.TIME;
 	}));
 
-	vis.rangeDates = vis.xTimeline.domain()
+	vis.rangeDates = vis.xTimeline.domain();
 
 
 	vis.timelineData = [];
@@ -271,28 +287,28 @@ WorldMap.prototype.updateHistogram = function() {
 				}).length
 			})
 		}
-	})
+	});
 
-	vis.yTimeline.domain([0, d3.extent(vis.timelineData, function(d){return d.total;})[1]])
+	vis.yTimeline.domain([0, d3.extent(vis.timelineData, function(d){return d.total;})[1]]);
 
 	// Timeline
-	d3.selectAll(".bar").remove()
+	d3.selectAll(".bar").remove();
 
 	vis.bars = vis.svgTimeline.append("g").attr("class", "bars")
 		.selectAll(".bar")
-		.data(vis.timelineData)
+		.data(vis.timelineData);
 
 
 	if (vis.selectedData == "all") {
 
 		vis.bars.enter().append("g")
-			.attr("class", "bar")
+			.attr("class", "bar");
 
 		vis.rects = vis.bars.selectAll("rect")
-			.data(function(d) { return d.values; })
+			.data(function(d) { return d.values; });
 
 		vis.rects.enter().append("rect")
-			.attr("class", "rect")
+			.attr("class", "rect");
 
 		vis.rects.attr("x", function (d) {
 				return vis.xTimeline(d.date);
@@ -305,7 +321,7 @@ WorldMap.prototype.updateHistogram = function() {
 	} else {
 
 		vis.bars.enter().append("rect")
-			.attr("class", "bar")
+			.attr("class", "bar");
 
 		vis.bars.attr("x", function (d) {
 				return vis.xTimeline(d.date);
@@ -322,8 +338,7 @@ WorldMap.prototype.updateHistogram = function() {
 
 	vis.svgTimeline.select(".x-axis")
 		.call(vis.xAxisTimeline)
-		.selectAll("text")
-		.attr("transform", "translate(" + (vis.widthTimeline / vis.dateRange.length - 25) + ", 10) rotate(-25)" );
+		.selectAll(".tick");
 
 	vis.svgTimeline.select(".y-axis")
 		.call(vis.yAxisTimeline);
@@ -338,7 +353,7 @@ WorldMap.prototype.updateHistogram = function() {
 	vis.updateLegend();
 	vis.updateMap();
 
-}
+};
 
 WorldMap.prototype.updateLegend = function() {
 	var vis = this;
@@ -353,15 +368,15 @@ WorldMap.prototype.updateLegend = function() {
 
 	for (var idx in vis.categories) {
 		vis.legendData.push({MAGNITUDE: vis.radiusScale[vis.categories[idx]].domain()[0],
-						CATEGORY: vis.categories[idx]})
+						CATEGORY: vis.categories[idx]});
 		vis.legendData.push({MAGNITUDE: (vis.radiusScale[vis.categories[idx]].domain()[0]+vis.radiusScale[vis.categories[idx]].domain()[1])/2,
-						CATEGORY: vis.categories[idx]})
+						CATEGORY: vis.categories[idx]});
 		vis.legendData.push({MAGNITUDE: vis.radiusScale[vis.categories[idx]].domain()[1],
-						CATEGORY: vis.categories[idx]})
+						CATEGORY: vis.categories[idx]});
 	}
 
 	vis.legend = vis.svgLegend.selectAll("circle")
-		.data(vis.legendData)
+		.data(vis.legendData);
 
 	vis.legend.enter()
 		.append("circle");
@@ -372,7 +387,7 @@ WorldMap.prototype.updateLegend = function() {
 	vis.legend.attr("cx", function(d, i) {
 			return Math.floor(i / 3) * (vis.widthLegend / 3);
 		})
-		.attr("cy", function(d, i){
+		.attr("cy", function(d){
 			return 50 - vis.radius(d)
 		})
 		.style("fill", function(d){return vis.color(d.CATEGORY);})
@@ -382,10 +397,10 @@ WorldMap.prototype.updateLegend = function() {
 		.style("stroke-opacity", 1)
 		.attr("r", function(d) {
 			return vis.radius(d);
-		})
+		});
 
 	vis.legendText = vis.svgLegend.selectAll("text")
-		.data(vis.legendData)
+		.data(vis.legendData);
 
 	vis.legendText.enter()
 		.append("text");
@@ -396,17 +411,17 @@ WorldMap.prototype.updateLegend = function() {
 	vis.legendText.attr("x", function(d, i) {
 			return Math.floor(i / 3) * (vis.widthLegend / 3);
 		})
-		.attr("y", function(d, i){
+		.attr("y", function(d){
 			return 50 - 2 * vis.radius(d) - 5
 		})
 		.attr("font-size", "10px")
 		.style("text-anchor", "middle")
 		.text(function(d) {
 			return "" + d.MAGNITUDE.toFixed(1)
-		})
+		});
 
 	vis.legendLabel = vis.svgLegend.selectAll(".legendLabel")
-		.data(vis.categories)
+		.data(vis.categories);
 
 	vis.legendLabel.enter()
 		.append("text");
@@ -424,7 +439,7 @@ WorldMap.prototype.updateLegend = function() {
 			label = "Tsunami Magnitude (Iida-Imamura)"
 		}
 		var words = label.split(' ');
-		el.text('')
+		el.text('');
 		for (var j = 0; j < words.length; j++) {
 			var tspan = el.append('tspan').text(words[j]);
 			tspan.attr("x", i * (vis.widthLegend / 3))
@@ -434,12 +449,12 @@ WorldMap.prototype.updateLegend = function() {
 		}
 
 	})
-}
+};
 
 WorldMap.prototype.updateMap = function() {
 	var vis = this;
 
-	vis.filteredData = vis.filteredData.sort(function(a, b){return vis.radius(b) - vis.radius(a);})
+	vis.filteredData = vis.filteredData.sort(function(a, b){return vis.radius(b) - vis.radius(a);});
 
 	vis.tip.html(function(d){
 		var magLabel;
@@ -455,14 +470,14 @@ WorldMap.prototype.updateMap = function() {
 			"Location: " + d.COUNTRY.charAt(0).toUpperCase() + d.COUNTRY.slice(1).toLowerCase() + "</br>" +
 			"Coordinates: (" + d.LATITUDE + ", " + d.LONGITUDE + ")" + "</br>" +
 			magLabel + ": " + d.MAGNITUDE
-	})
+	});
 
 
-	vis.events = vis.svg.selectAll("circle.circle-event")
+	vis.events = vis.svgMap.selectAll("circle.circle-event")
 		.data(vis.filteredData);
 
 	vis.events.enter()
-		.append("circle")
+		.append("circle");
 
 	vis.events.attr("class", "circle-event")
 		.attr("cx", function(d) {
@@ -486,7 +501,7 @@ WorldMap.prototype.updateMap = function() {
 		})
 		.attr("r", function(d) {
 			return vis.radius(d);
-		})
+		});
 
 	// remove circles for old earthquakes no longer in data
 	vis.events.exit()
@@ -495,19 +510,20 @@ WorldMap.prototype.updateMap = function() {
 		.style("fill-opacity", 0)
 		.remove();
 
-	vis.legendMap = vis.svg.selectAll("text")
-		.data([vis.rangeDates])
+	vis.legendMap = vis.svg.selectAll(".text-title")
+		.data([vis.rangeDates]);
 
 	vis.legendMap.enter()
-		.append("text")
+		.append("text");
 
 	vis.legendMap.exit()
-		.remove()
+		.remove();
 
-	vis.legendMap.attr("x", vis.width / 2)
-		.attr("y", - vis.margin.top / 2)
+	vis.legendMap.attr("class", "text-title")
+		.attr("x", 1200 / 2)
+		.attr("y", vis.margin.top / 2)
 		.attr("font-size", "18px")
-		.style("text-anchor", "middle")
+		.attr("text-anchor", "middle")
 		.text(function(d) {
 			var mapLabel;
 			if (vis.selectedData == "all"){
@@ -521,10 +537,10 @@ WorldMap.prototype.updateMap = function() {
 			}
 			return mapLabel + " from " + vis.formatDate(d[0]) + " to " + vis.formatDate(d[1])
 		})
-}
+};
 
 
 WorldMap.prototype.radius = function(d) {
 	var vis = this;
 	return vis.radiusScale[d.CATEGORY](d.MAGNITUDE);
-}
+};
