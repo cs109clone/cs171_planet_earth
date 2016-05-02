@@ -2,10 +2,11 @@
 <meta charset="utf-8">
 <style>
 
-body {
+#mainContainer {
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   margin: auto;
   position: relative;
+  top:600px;
   width: 1100px;
 }
 
@@ -29,17 +30,20 @@ text {
 
 form {
   position: absolute;
-  right: 10px;
-  top: 10px;
+  right: 5%;
+  top: 500px;
 }
 
 #selectMenu{
-  position: fixed;
-  left: 150px;
-  top:40px;
+  position: absolute;
+  left: 10%;
+  top:480px;
 }
 
 #title{
+  position:absolute;
+  top:450px;
+  left:10%;
   margin-top:5px;
   font-family: sans-serif;
   font-weight: 2px;
@@ -83,20 +87,55 @@ form {
   left: 0;
 }
 
+#word2{
+  position:absolute;
+  top:1100px;
+}
+body{
+  padding-left:10px;
+  padding-right:10px;
+}
 
 </style>
 
-  <div id="title">Total Number of damaged houses grouped in EMS-98 Damage classes by evaulated communes</div>
-<form>
-  <label><input type="radio" name="mode" value="grouped"> Grouped</label>
-  <label><input type="radio" name="mode" value="stacked" checked> Stacked</label>
-</form>
-<div id="selectMenu">
-<select onchange="window.location.href = this.value">
-    <option value="earth2.html">evaluated communes</option>
-    <option value="earth.html">Dominant land use</option>
-  </selection>
+
+<div id="words">
+  <h1>Haiti Earthquake in 2010</h1>
+  <h2>Facts</h2>
+  <p>Time: 16:53 local time on Tuesday, 12 Jan 2010<br>Catastrophic magnitude: 7.0 M <br> Epicenter: town of Leogane, 25 km west of Port-au-Prince, Haiti’s capital <br>Death toll: 100,000 - 160,000<br></p>
+  <h2>Building damage</h2>
+  <p>Due to the high magnitude as well as frequent aftershocks, Haiti 2010 earthquake caused huge damage to buildings and landmarks in the region. According to the International Business Times, the earthquake destroyed about “70 percent of the building in the 15 districts of the country’s capital city Port-au-Prince”. Regions that got hit by the earthquake also had poor construction practices and high population density, which worsened the casualty and destruction conditions. </p>
+  <h2>Background</h2>
+  <p>The Government of Haiti, with technical support and facilitation provided by the United Nations (UN), the Inter-American Development Bank (IADB), the World Bank (WB) and the European Commission (EC), led the Post Disaster Needs Assessment (PDNA) in the region and assessed the damage of buildings in the earthquake affected area. It was conducted by comparing pre-earthquake satellite imagery to post-earthquake aerial photos. </p>
 </div>
+
+
+
+<div id="visContainer">
+  <div id="title">Total Number of damaged houses grouped in EMS-98 Damage classes by evaulated communes</div>
+  <form>
+    <label><input type="radio" name="mode" value="grouped"> Grouped</label>
+    <label><input type="radio" name="mode" value="stacked" checked> Stacked</label>
+  </form>
+  <div id="selectMenu">
+    <select onchange="window.location.href = this.value">
+      <option value="earth2.html">evaluated communes</option>
+      <option value="earth.html">Dominant land use</option>
+    </select>
+  </div>
+</div>
+
+<div id="word2">
+<h2>EMS-98 Damage classification diagram </h2>
+<img src="layout/images/EMS-98.png" alt="EMS-98" id="EMS-98">
+<h2>What can we read from the graph?</h2>
+<p>1) Classified by the dominant land use:<br>a. buildings on the agricultural land are damaged severely since all buildings left were classified in class 4 and class 5. <br>b. On agricultural, commercial land and in downtown, there were more damaged houses than houses in better condition. On residential land with high and low density and in shanty, the situation was better.<br><br>2) Classified by the evaulated communes:<br>a. In Port-au-Prince, Leogane, Carrefour and Delmas, the building damage condition was severe. This makes sense because those regions are close to the epicenter.<br>b. In general, buildings had poor construction practice. 
+</p>
+
+</div>
+
+
+
 <script src="//d3js.org/d3.v3.min.js"></script>
 <script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
 <script>
@@ -124,9 +163,9 @@ var color_domain=["#be324c", "#a32639", "#871926", "#6c0d13", "#500000"];
 
 
 
-var margin = {top: 40, right: 10, bottom: 20, left: 10},
+var margin = {top: 60, right: 10, bottom: 20, left: 40},
     width = 1000 - margin.left - margin.right,
-    height = 500 - margin.top - margin.bottom;
+    height = 550 - margin.top - margin.bottom;
 
 var x = d3.scale.ordinal()
     .domain(d3.range(m))
@@ -175,7 +214,7 @@ var svg = d3.select("body").append("svg")
     .attr("width", width + margin.left + margin.right+100)
     .attr("height", height + margin.top + margin.bottom)
     .append("g")
-    .attr("transform", "translate( 0," + margin.top + ")");
+    .attr("transform", "translate( " +margin.left+","+ margin.top + ")");
 
 //var tip = d3.tip()
 //    .attr('class', 'd3-tip');
@@ -193,7 +232,7 @@ var legend = svg.selectAll("g.legend")
 var ls_w = 10, ls_h = 20;
 
 legend.append("rect")
-    .attr("x", width )
+    .attr("x", width+20 )
     .attr("y", function(d, i){
         return height - (i*ls_h) - 2*ls_h-350;
     })
@@ -205,7 +244,7 @@ legend.append("rect")
     });
 
 legend.append("text")
-            .attr("x", width-35)
+            .attr("x", width-15)
             .attr("y", function(d, i){
                 return height - (i*ls_h) - 2*ls_h-335;
             })
@@ -307,7 +346,7 @@ svg.append("text")
     .text("total number of damaged houses");
 svg.append("text")
     .attr("x", width-35)
-    .attr("y", 80 )
+    .attr("y", 115 )
     .text("EMS-98 Damage Class");
 
 d3.selectAll("input").on("change", change);
