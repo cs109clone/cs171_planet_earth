@@ -1,6 +1,17 @@
-body {
+#tsunami-runup {
+    width: 100%;
+    padding-left: 200px;
     font-family: 'Roboto', sans-serif;
-    font-size: 10px;
+    font-size: 12px;
+    background-color: transparent;
+    z-index: 2;
+}
+
+.tsunami-image {
+    width: 500px;
+    float: left;
+    margin: 15px;
+    border: 3px solid #222222;
 }
 
 rect.zoom-pane {
@@ -29,7 +40,8 @@ rect.zoom-pane {
 
 .axis circle {
     fill: none;
-    stroke: #777;
+    stroke-width: 2px;
+    stroke: #222;
 }
 
 .axis :last-of-type circle {
@@ -43,6 +55,9 @@ rect.zoom-pane {
     stroke-width: 1.5px;
 }
 
+.zoom-comment {
+    font-size: 10px;
+}
 
 
 /*********************/

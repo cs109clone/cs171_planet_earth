@@ -6,7 +6,7 @@
 -->
 <html>
 	<head>
-		<title>Fire </title>
+		<title>Water </title>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
@@ -14,8 +14,8 @@
 		<!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
 		<!--[if lte IE 9]><link rel="stylesheet" href="assets/css/ie9.css" /><![endif]-->
 		<link href='https://fonts.googleapis.com/css?family=Roboto:100,400,300,400italic,700' rel='stylesheet' type='text/css'>
-		<link rel="stylesheet" href="//rawgithub.com/Caged/d3-tip/master/examples/example-styles.css">
-		<link rel="stylesheet" href="assets/tsunami/css/style.css">
+		<link rel="stylesheet" href="https://rawgithub.com/Caged/d3-tip/master/examples/example-styles.css">
+		<link rel="stylesheet" href="assets/polar_tsunami/css/style.css">
 
 	</head>
 	<body>
@@ -48,14 +48,27 @@
 						<section class="wrapper style5">
 							<div class="inner">
 
-								<h3>Tsunami</h3>
-
-								<div id="tsunami-runup"></div>
-
-								<!-- Load JS libraries -->
-								<script src="https://d3js.org/d3.v3.min.js" charset="utf-8"></script>
-								<script src="assets/tsunami/js/d3.tip.js"></script>
-
+<div class="row">
+<h3>26 December 2004 - The Indian Ocean tsunami</h3>
+<p>
+<img class="tsunami-image" src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2d/2004-tsunami.jpg/1280px-2004-tsunami.jpg"/>
+During the afternoon on the 26th of December of 2004, the earth shook on the island of Sumatra, part of Indonesia, in the third largest earthquake ever recorded, a magnitude 9.2.
+Soon after, a wave rose up to 30 meters (100 feet) high as it ran aground on coastal areas in Indonesia, Thailand, India.
+Several hours later, waves ran aground in east Africa, causing further devastation.
+All told, 230,000 people died and millions had their lives upturned. The earthquake had lasted longer than any previously recorded at almost 10 minutes and the tsunami that followed had affected an entire ocean basin and was the first major megathrust earthquake since the 1960s.
+</p>
+<p>
+Tsunamis happen when the seafloor is rapidly lifted by an earthquake. The overlying water is also raised creating a wave displacing enormous amounts of amounts. In the deep ocean, this wave would be barely noticeable because tsunamis have a wavelength up to 200 kilometers in the deep ocean, and are only a few inches tall. Normal ocean waves with wavelengths of a few dozen meters. However, 
+</p>
+</div>
+<div id="tsunami-runup"></div>
+<div class="row">
+<i>Sources:</i>
+<ul>
+<li>https://en.wikipedia.org/wiki/2004_Indian_Ocean_earthquake_and_tsunami</li>
+<li>Bilham, R., Engdahl, R., Feldl, N. & Satyabala, S. P. Partial and complete rupture of the Indo-Andaman Plate boundary 1847–2004. Seismol. Res. Lett. 76, 299–311 (2005)</li>
+</ul>
+</div>
 							</div>
 						</section>
 					</article>
@@ -85,9 +98,10 @@
 			<!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
 			<script src="assets/js/main.js"></script>
 			<script src="assets/Iceland/d3.min.js" charset="utf-8"></script>
-			<script src="assets/tsunami/js/d3.tip.js"></script>
-			<script src="assets/tsunami/js/tsunami_runup.js"></script>
-			<script src="assets/tsunami/js/main.js"></script>
+			<script src="assets/polar_tsunami/js/d3.tip.js"></script>
+			<script src="assets/polar_tsunami/js/colorbar.js"></script>
+			<script src="assets/polar_tsunami/js/tsunami_runup.js"></script>
+			<script src="assets/polar_tsunami/js/main.js"></script>
 
 	</body>
 </html>

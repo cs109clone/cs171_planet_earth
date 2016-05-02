@@ -1,5 +1,3 @@
-// TODO:
-// Add a label to the color bar
 TsunamiRunup = function(_parentElement, _dataFile) {
     this.parentElement = _parentElement;
     this.dataFile = _dataFile;
